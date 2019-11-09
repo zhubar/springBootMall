@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.OrderItemMapper">
+    <select id="findAll" resultType="OrderItem">
+            select * from orderitem
+        </select>
+
+    <select id="findById" resultType="OrderItem" parameterType="int">
+            select * from orderitem where id = #{id}
+        </select>
+
+    <select id="findByPid" resultType="OrderItem" parameterType="int">
+            select * from orderitem where pid = #{pid}
+        </select>
+
+    <select id="findByOid" resultType="OrderItem" parameterType="int">
+            select * from orderitem where oid = #{oid}
+        </select>
+
+    <select id="findByUid" resultType="OrderItem" parameterType="int">
+            select * from orderitem where uid = #{uid}
+        </select>
+
+    <insert id="insert" parameterType="OrderItem" useGeneratedKeys="true"   keyProperty="id">
+  insert into orderitem (pid,uid,oid,number) values (#{pid},#{uid},#{oid},number)
+</insert>
+
+    <update id="update" parameterType="OrderItem">
+   update orderitem set pid = #{pid},uid = #{uid},oid = #{oid},
+    number = #{number} where id = #{id}
+</update>
+
+    <delete id="delete" parameterType="int">
+   delete from orderitem where id = #{id}
+</delete>
+</mapper>

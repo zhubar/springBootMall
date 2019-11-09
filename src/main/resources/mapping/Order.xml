@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.OrderMapper">
+    <select id="findAll" resultType="Order">
+            select * from order_
+        </select>
+
+    <select id="findById" resultType="Order" parameterType="int">
+            select * from order_ where id = #{id}
+        </select>
+
+
+    <select id="findByUid" resultType="Order" parameterType="int">
+            select * from order_ where uid = #{uid}
+        </select>
+
+    <insert id="insert" parameterType="Order" useGeneratedKeys="true"   keyProperty="id">
+  insert into order_ (orderCode,address,receiver,mobile,userMessage,createDate,payDate,
+  deliveryDate,confirmDate,uid,status)
+  values (#{orderCode},#{address},#{receiver},#{mobile},
+  #{userMessage},#{createDate},#{payDate},#{deliveryDate},#{confirmDate},#{uid},#{status})
+</insert>
+
+    <update id="update" parameterType="Order">
+   update order_ set orderCode = #{orderCode},address = #{address},receiver = #{receiver},mobile = #{mobile},
+    userMessage = #{userMessage},createDate = #{createDate},payDate = #{payDate},deliveryDate = #{deliveryDate},
+     confirmDate = #{confirmDate}, uid = #{uid},status = #{status} where id = #{id}
+</update>
+
+    <update id="delivery" parameterType="int">
+   update order_ set status = "waitConfirm" where id = #{id}
+</update>
+
+    <delete id="delete" parameterType="int">
+   delete from order_ where id = #{id}
+</delete>
+</mapper>

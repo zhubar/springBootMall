@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.PropertyValueMapper">
+
+    <select id="findByPid" resultType="PropertyValue" parameterType="int">
+            select * from propertyvalue where pid = #{pid}
+        </select>
+
+    <select id="findById" resultType="PropertyValue" parameterType="int">
+            select * from propertyvalue where id = #{id}
+        </select>
+
+    <insert id="insert" parameterType="PropertyValue" useGeneratedKeys="true"   keyProperty="id">
+  insert into propertyvalue (value,pid,ptid) values (#{value},#{pid},#{ptid})
+</insert>
+
+    <update id="update" parameterType="PropertyValue">
+   update propertyvalue set value = #{value} where id = #{id}
+</update>
+
+    <delete id="delete" parameterType="int">
+   delete from propertyvalue where id = #{id}
+</delete>
+</mapper>

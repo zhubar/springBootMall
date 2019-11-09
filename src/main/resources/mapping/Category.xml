@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.CategoryMapper">
+    <select id="findAll" resultType="Category">
+            select * from category
+        </select>
+
+    <select id="findById" resultType="Category" parameterType="int">
+            select * from category where id = #{id}
+        </select>
+
+    <insert id="insert" parameterType="Category" useGeneratedKeys="true"   keyProperty="id">
+  insert into category (name) values (#{name})
+</insert>
+
+    <update id="update" parameterType="Category">
+   update category set name = #{name} where id = #{id}
+</update>
+
+    <delete id="delete" parameterType="int">
+   delete from category where id = #{id}
+</delete>
+</mapper>

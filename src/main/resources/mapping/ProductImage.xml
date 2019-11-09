@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ProductImageMapper">
+
+    <select id="findSingleByPid" resultType="ProductImage" parameterType="int">
+            select * from productimage where pid = #{pid} and type= "type_single"
+        </select>
+
+    <select id="findDetailByPid" resultType="ProductImage" parameterType="int">
+            select * from productimage where pid = #{pid} and type= "type_detail"
+        </select>
+
+    <select id="findById" resultType="ProductImage" parameterType="int">
+            select * from productimage where id = #{id}
+        </select>
+
+    <insert id="insert" parameterType="ProductImage" useGeneratedKeys="true"   keyProperty="id">
+  insert into productimage (pid,type) values (#{pid},#{type})
+</insert>
+
+    <update id="update" parameterType="ProductImage">
+   update productimage set pid = #{pid}, type = #{type} where id = #{id}
+</update>
+
+    <delete id="delete" parameterType="int">
+   delete from productimage where id = #{id}
+</delete>
+</mapper>

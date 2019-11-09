@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ProductMapper">
+
+    <select id="findByCid" resultType="Product" parameterType="int">
+            select * from product where cid = #{cid}
+        </select>
+
+    <select id="findById" resultType="Product" parameterType="int">
+            select * from product where id = #{id}
+        </select>
+
+    <select id="search" resultType="Product" parameterType="String">
+            select * from product where name like #{keyword}
+        </select>
+
+    <insert id="insert" parameterType="Product" useGeneratedKeys="true"   keyProperty="id">
+  insert into product (name,subTitle,originalPrice,promotePrice,stock,cid)
+  values (#{name},#{subTitle},#{originalPrice},#{promotePrice},#{stock},#{cid})
+</insert>
+
+    <update id="update" parameterType="Product">
+   update product set name = #{name},subTitle = #{subTitle},originalPrice = #{originalPrice},
+   promotePrice = #{promotePrice},stock = #{stock}, cid= #{cid} where id = #{id}
+</update>
+
+    <delete id="delete" parameterType="int">
+   delete from product where id = #{id}
+</delete>
+</mapper>

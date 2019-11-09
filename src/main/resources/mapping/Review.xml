@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ReviewMapper">
+    <select id="findAll" resultType="Review">
+            select * from review
+        </select>
+
+    <select id="findById" resultType="Review" parameterType="int">
+            select * from review where id = #{id}
+        </select>
+
+    <select id="findByPid" resultType="Review" parameterType="int">
+            select * from review where pid = #{pid}
+        </select>
+
+    <select id="findByUid" resultType="Review" parameterType="int">
+            select * from review where uid = #{uid}
+        </select>
+
+
+    <insert id="insert" parameterType="Review" useGeneratedKeys="true"   keyProperty="id">
+  insert into review (content,uid,pid,createDate) values (#{content},#{uid},#{pid},#{createDate})
+</insert>
+
+    <update id="update" parameterType="Review">
+   update review set content = #{content},uid = #{uid},pid = #{pid},createDate = #{createDate} where id = #{id}
+</update>
+
+    <delete id="delete" parameterType="int">
+   delete from review where id = #{id}
+</delete>
+</mapper>
+
