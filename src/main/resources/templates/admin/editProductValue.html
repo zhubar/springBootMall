@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div th:include="include/admin/adminHeader.html"></div>
+<div th:include="include/admin/adminNavigator.html"></div>
+
+<script th:inline="javascript">
+        $(function () {
+            $("input.pvValue").keyup(function () {
+                var value = $(this).val();
+                var page = "updateProductPropertyValue";
+                var pvid = $(this).attr("pvid");
+                var pid = $(this).attr("pid");
+                var ptid = $(this).attr("ptid");
+                var parentSpan = $(this).parent("span");
+                parentSpan.css("border", "1px solid yellow");
+                $.post(
+                    page,
+                    {"value": value, "pvid": pvid,"pid": pid,"ptid": ptid},
+                    function (result) {
+                        if ("success" == result)
+                            parentSpan.css("border", "1px solid green");
+                        else
+                            parentSpan.css("border", "1px solid red");
+                    }
+                );
+            });
+        });
+</script>
+
+
+<body>
+<div class="workingArea">
+    <ol class="breadcrumb">
+        <li><a href="listCategory">所有分类</a></li>
+        <li><a th:href="@{listProduct(cid = ${c.id})}" th:text="${c.name}">${c.name}</a></li>
+        <li class="active" th:text="${p.name}">${p.name}</li>
+        <li class="active">编辑产品属性</li>
+    </ol>
+
+    <div class="editPVDiv" th:each="pv:${pvs}">
+            <div class="eachPV">
+                <span class="pvName" th:text="${pv.property.name}">${pv.property.name}</span>
+                <span class="pvValue"><input class="pvValue" th:pid = "${pv.product.id}" th:ptid = "${pv.property.id}" th:pvid="${pv.id}" type="text" th:value="${pv.value}"></span>
+            </div>
+        <div style="clear:both"></div>
+    </div>
+
+    <div class="panel panel-warning addDiv">
+        <div class="panel-body">
+            <table class="addTable">
+                <tr class="submitTR">
+                    <td colspan="2" align="center">
+                        <a th:href="@{listProduct(cid = ${c.id})}">
+                            <button type="submit" class="btn btn-success">提交</button>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

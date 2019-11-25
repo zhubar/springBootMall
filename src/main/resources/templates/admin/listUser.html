@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div th:include="include/admin/adminHeader.html"></div>
+<div th:include="include/admin/adminNavigator.html"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="workingArea">
+    <h1 class="label label-info">用户管理</h1>
+    <br>
+    <br>
+    <div class="listDataTableDiv">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+            <thead>
+            <tr class="success">
+                <th>ID</th>
+                <th>用户名称</th>
+                <th>密码</th>
+                <th>收件人</th>
+                <th>手机号码</th>
+                <th>地址</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user:${pageInfo.list}">
+                    <td th:text="${user.id}">${user.id}</td>
+                    <td th:text="${user.name}">${user.name}</td>
+                    <td th:text="${user.password}">${user.password}</td>
+                    <td th:text="${user.receiver}">${user.receiver}</td>
+                    <td th:text="${user.mobile}">${user.mobile}</td>
+                    <td th:text="${user.address}">${user.address}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pageDiv" th:include="include/admin/adminPage.html"></div>
+</div>
+
+<div th:include="include/admin/adminFooter.html"></div>
+</body>
+</body>
+</html>

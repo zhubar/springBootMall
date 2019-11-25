@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div class="categoryMenu">
+        <div th:each="category:${categories}" th:cid="${category.id}" class="eachCategory">
+            <span class="glyphicon glyphicon-link"></span>
+            <a th:href="@{category(cid=${category.id})}" th:text="${category.name}">
+                ${category.name}
+            </a>
+        </div>
+</div>

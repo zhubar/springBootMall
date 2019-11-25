@@ -28,7 +28,7 @@
 <div class="workingArea">
     <ol class="breadcrumb">
         <li><a href="listCategory">所有分类</a></li>
-        <li><a href="listProduct?cid=${cid}">back</a></li>
+        <li><a href="listProduct?cid=${c.id}">${c.name}</a></li>
         <li class="active">${p.name}</li>
         <li class="active">编辑产品</li>
     </ol>

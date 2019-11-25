@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<script>
+    $(function () {
+        $("#bought").click(function () {
+            var page = "checkLogin";
+            $.get(
+                page,
+                function (result) {
+                    if ("success" == result) {
+                        location.href = $("#bought").attr("href");
+                    }
+                    else {
+                        $("#loginModal").modal('show');
+                    }
+                }
+            );
+            return false;
+        });
+        $("#cart").click(function () {
+            var page = "checkLogin";
+            $.get(
+                page,
+                function (result) {
+                    if ("success" == result) {
+                        location.href = $("#cart").attr("href");
+                    }
+                    else {
+                        $("#loginModal").modal('show');
+                    }
+                }
+            );
+            return false;
+        });
+    });
+</script>
+<nav class="top ">
+    <a href="home">
+        <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-home redColor"></span>
+        天猫首页
+    </a>
+
+    <span>喵，欢迎来天猫</span>
+
+    <span th:if="${session.user!=null}">
+        <a href="" th:text="${session.user.name}">${user.name}</a>
+        <a href="logout">退出</a>
+        <a href="userInformation">个人信息</a>
+    </span>
+
+    <span th:if="${session.user==null}">
+        <a href="userLogin">请登录</a>
+        <a href="userRegister">免费注册</a>
+    </span>
+
+    <span class="pull-right">
+            <a id = "bought" href="bought">我的订单</a>
+            <a id = "cart" href="cart">
+            <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-shopping-cart redColor"></span>
+            购物车<strong th:text="${cartTotalItemNumber}"></strong></a>
+        </span>
+
+</nav>

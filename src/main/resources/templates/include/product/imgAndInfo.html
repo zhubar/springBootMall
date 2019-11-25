@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<script>
+
+    $(function () {
+        var stock = [[${p.stock}]];
+        $(".productNumberSetting").keyup(function () {
+            var num = $(".productNumberSetting").val();
+            num = parseInt(num);
+            if (isNaN(num))
+                num = 1;
+            if (num <= 0)
+                num = 1;
+            if (num > stock)
+                num = stock;
+            $(".productNumberSetting").val(num);
+        });
+
+        $(".increaseNumber").click(function () {
+            var num = $(".productNumberSetting").val();
+            num++;
+            if (num > stock)
+                num = stock;
+            $(".productNumberSetting").val(num);
+        });
+        $(".decreaseNumber").click(function () {
+            var num = $(".productNumberSetting").val();
+            --num;
+            if (num <= 0)
+                num = 1;
+            $(".productNumberSetting").val(num);
+        });
+
+        $(".addCartLink").click(function () {
+            var page = "checkLogin";
+            $.get(
+                page,
+                function (result) {
+                    if ("success" == result) {
+                        var pid = [[${p.id}]];
+                        var num = $(".productNumberSetting").val();
+                        var addCartpage = "addCart";
+                        $.get(
+                            addCartpage,
+                            {"pid": pid, "num": num},
+                            function (result) {
+                                if ("success" == result) {
+                                    $(".addCartButton").html("已加入购物车");
+                                    $(".addCartButton").attr("disabled", "disabled");
+                                    $(".addCartButton").css("background-color", "lightgray");
+                                    $(".addCartButton").css("border-color", "lightgray");
+                                    $(".addCartButton").css("color", "black")
+                                }
+                                else {
+                                }
+                            }
+                        );
+                    }
+                    else {
+                        $("#loginModal").modal('show');
+                    }
+                }
+            );
+            return false;
+        });
+        $(".buyLink").click(function () {
+            var page = "checkLogin";
+            $.get(
+                page,
+                function (result) {
+                    if ("success" == result) {
+                        var num = $(".productNumberSetting").val();
+                        location.href = $(".buyLink").attr("href") + "&num=" + num;
+                    }
+                    else {
+                        $("#loginModal").modal('show');
+                    }
+                }
+            );
+            return false;
+        });
+
+        $("button.loginSubmitButton").click(function () {
+            var name = $("#name").val();
+            var password = $("#password").val();
+
+            if (0 == name.length || 0 == password.length) {
+                $("span.errorMessage").html("请输入账号密码");
+                $("div.loginErrorMessageDiv").show();
+                return false;
+            }
+
+            var page = "loginAjax";
+            $.get(
+                page,
+                {"name": name, "password": password},
+                function (result) {
+                    if ("success" == result) {
+                        location.reload();
+                    }
+                    else {
+                        $("span.errorMessage").html("账号密码错误");
+                        $("div.loginErrorMessageDiv").show();
+                    }
+                }
+            );
+
+            return true;
+        });
+
+        $("img.smallImage").mouseenter(function () {
+            var bigImageURL = $(this).attr("bigImageURL");
+            $("img.bigImg").attr("src", bigImageURL);
+        });
+
+        $("img.bigImg").load(
+            function () {
+                $("img.smallImage").each(function () {
+                    var bigImageURL = $(this).attr("bigImageURL");
+                    img = new Image();
+                    img.src = bigImageURL;
+
+                    img.onload = function () {
+                        console.log(bigImageURL);
+                        $("div.img4load").append($(img));
+                    };
+                });
+            }
+        );
+    });
+
+</script>
+
+<div class="imgAndInfo">
+
+    <div class="imgInimgAndInfo">
+        <img th:src="@{img/productSingle/{filename}.jpg(filename =${p.firstProductImage.id})}" class="bigImg">
+        <div class="smallImageDiv">
+                <img th:each="pi:${p.productSingleImages}"
+                        th:src="@{img/productSingle_small/{name}.jpg(name = ${pi.id})}"
+                     th:bigImageURL="@{img/productSingle/{name}.jpg(name = ${pi.id})}"
+                     class="smallImage">
+        </div>
+        <div class="img4load hidden"></div>
+    </div>
+
+    <div class="infoInimgAndInfo" >
+
+        <div class="productTitle" style="height:64px; font-size: 25px" th:text="${p.name}">
+            ${p.name}
+        </div>
+        <div class="productSubTitle" style="height:45px;font-size: 15px" th:text="${p.subTitle}">
+            ${p.subTitle}
+        </div>
+
+        <div class="productPrice" style="height:140px">
+            <div class="juhuasuan">
+                <span class="juhuasuanBig"></span>
+                <span><span class="juhuasuanTime"></span></span>
+            </div>
+            <div class="productPriceDiv">
+                <div class="gouwujuanDiv"><img height="16px" src="">
+                    <span>现正促销</span>
+
+                </div>
+                <div class="originalDiv">
+                    <span class="originalPriceDesc">价格</span>
+                    <span class="originalPriceYuan">¥</span>
+                    <span class="originalPrice" th:value="${p.originalPrice}" th:text="${p.originalPrice}">
+                    </span>
+                </div>
+                <div class="promotionDiv">
+                    <span class="promotionPriceDesc">促销价 </span>
+                    <span class="promotionPriceYuan">¥</span>
+                    <span class="promotionPrice" th:value="${p.promotePrice}" th:text="${p.promotePrice}">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="productSaleAndReviewNumber" >
+            <div>销量 <span class="redColor boldWord" th:text="${p.saleCount }"> ${p.saleCount }</span></div>
+            <div>累计评价 <span class="redColor boldWord" th:text="${p.reviewCount }"> ${p.reviewCount}</span></div>
+        </div>
+        <div class="productNumber" style="height:50px">
+            <span>数量</span>
+            <span>
+                <span class="productNumberSettingSpan">
+                <input class="productNumberSetting" type="text" value="1">
+                </span>
+                <span class="arrow">
+                    <a href="#nowhere" class="increaseNumber">
+                    <span class="updown">
+                            <img src="img/site/increase.png">
+                    </span>
+                    </a>
+
+                    <span class="updownMiddle"> </span>
+                    <a href="#nowhere" class="decreaseNumber">
+                    <span class="updown">
+                            <img src="img/site/decrease.png">
+                    </span>
+                    </a>
+
+                </span>
+
+            件</span>
+            <span th:text="'库存'+${p.stock}+'件'">库存${p.stock}件</span>
+        </div>
+        <div class="serviceCommitment">
+            <span class="serviceCommitmentDesc"></span>
+            <span class="serviceCommitmentLink">
+                <a href="#nowhere"></a>
+                <a href="#nowhere"></a>
+                <a href="#nowhere"></a>
+                <a href="#nowhere"></a>
+            </span>
+        </div>
+
+        <div class="buyDiv">
+            <a class="buyLink" th:href="@{buyone(pid=${p.id})}">
+                <button class="buyButton">立即购买</button>
+            </a>
+            <a href="#nowhere" class="addCartLink">
+                <button class="addCartButton"><span class="glyphicon glyphicon-shopping-cart"></span>加入购物车</button>
+            </a>
+        </div>
+    </div>
+
+    <div style="clear:both"></div>
+
+</div>

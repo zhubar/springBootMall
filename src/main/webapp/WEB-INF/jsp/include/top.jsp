@@ -1,6 +1,39 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8"
          pageEncoding="UTF-8" isELIgnored="false" %>
-
+<script>
+    $(function () {
+        $("#bought").click(function () {
+            var page = "checkLogin";
+            $.get(
+                page,
+                function (result) {
+                    if ("success" == result) {
+                        location.href = $("#bought").attr("href");
+                    }
+                    else {
+                        $("#loginModal").modal('show');
+                    }
+                }
+            );
+            return false;
+        });
+        $("#cart").click(function () {
+            var page = "checkLogin";
+            $.get(
+                page,
+                function (result) {
+                    if ("success" == result) {
+                        location.href = $("#cart").attr("href");
+                    }
+                    else {
+                        $("#loginModal").modal('show');
+                    }
+                }
+            );
+            return false;
+        });
+    });
+</script>
 <nav class="top ">
     <a href="home">
         <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-home redColor"></span>
@@ -21,8 +54,8 @@
     </c:if>
 
     <span class="pull-right">
-            <a href="bought">我的订单</a>
-            <a href="cart">
+            <a id = "bought" href="bought">我的订单</a>
+            <a id = "cart" href="cart">
             <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-shopping-cart redColor"></span>
             购物车<strong>${cartTotalItemNumber}</strong>件</a>
         </span>

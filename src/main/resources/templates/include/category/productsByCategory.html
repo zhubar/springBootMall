@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div class="categoryProducts"
+     th:with="categorycount=${param.categorycount ==null?100:param.categorycount}">
+            <div  th:each="p,stc:${category.products}"
+                  th:if="${stc.count<=categorycount}"
+                    class="productUnit" th:price="${p.promotePrice}">
+                <div class="productUnitFrame">
+                    <a th:href="@{product(pid=${p.id})}">
+                        <img class="productImage" th:src="@{img/productSingle_middle/{filename}.jpg(filename=${p.firstProductImage.id})}">
+                    </a>
+                    <span class="productPrice" th:value="${p.promotePrice}" th:text="${p.promotePrice}">
+                    </span>
+                    <a class="productLink" th:href="@{product(pid=${p.id})}" th:text="${p.name}">
+                        ${fn:substring(p.name, 0, 50)}
+                    </a>
+
+                    <a class="tmallLink" href="product?pid=${p.id}">天猫专卖</a>
+
+                    <div class="show1 productInfo">
+                        <span class="monthDeal ">月成交 <span class="productDealNumber"th:text="${p.saleCount}">${p.saleCount}笔</span></span>
+                        <span class="productReview">评价<span class="productReviewNumber"th:text="${p.reviewCount}">${p.reviewCount}</span></span>
+                        <span class="wangwang">
+
+                    </span>
+                    </div>
+                </div>
+            </div>
+    <div style="clear:both"></div>
+</div>

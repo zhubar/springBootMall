@@ -25,7 +25,7 @@
         </select>
 
     <insert id="insert" parameterType="OrderItem" useGeneratedKeys="true"   keyProperty="id">
-  insert into orderitem (pid,uid,oid,number) values (#{pid},#{uid},#{oid},number)
+  insert into orderitem (pid,uid,oid,number) values (#{pid},#{uid},#{oid},#{number})
 </insert>
 
     <update id="update" parameterType="OrderItem">

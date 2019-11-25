@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<title th:text="${p.name}">模仿天猫官网 ${p.name}</title>
+
+<div class="categoryPictureInProductPageDiv">
+    <img class="categoryPictureInProductPage" th:src="@{img/category/{filename}.jpg(filename = ${c.id})}">
+</div>
+
+<div class="productPageDiv">
+    <div th:include="include/product/imgAndInfo.html"></div>
+    <div th:include="include/product/productReview.html"></div>
+    <div th:include="include/product/productDetail.html"></div>
+
+</div>

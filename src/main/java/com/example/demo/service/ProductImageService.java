@@ -28,25 +28,15 @@ public class ProductImageService {
     }
     public ProductImage findById(int id){
         ProductImage pi = productImageMapper.findById(id);
-        Product p = productMapper.findById(pi.getPid());
-        pi.setProduct(p);
         return pi;
     }
     public List<ProductImage> findSingleByPid(int pid){
         List<ProductImage> pis = productImageMapper.findSingleByPid(pid);
-        for(ProductImage pi : pis){
-            Product p = productMapper.findById(pi.getPid());
-            pi.setProduct(p);
-        }
         return pis;
 
     }
     public List<ProductImage> findDetailByPid(int pid){
         List<ProductImage> pis = productImageMapper.findDetailByPid(pid);
-        for(ProductImage pi : pis){
-            Product p = productMapper.findById(pi.getPid());
-            pi.setProduct(p);
-        }
         return pis;
 
     }

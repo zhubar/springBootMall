@@ -81,9 +81,10 @@ public class SellController {
         m.addAttribute("cname",cname);
         m.addAttribute("csell",csell);
         m.addAttribute("cid",cid);
+        m.addAttribute("control",1);
 
 
-        return "admin/listSell.jsp";
+        return "/admin/listSell.html";
     }
 
     @RequestMapping("/sellAjax")

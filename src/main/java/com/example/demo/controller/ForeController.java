@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -40,6 +41,13 @@ public class ForeController {
     OrderItemService orderItemService;
     @Autowired
     OrderService orderService;
+
+    @RequestMapping("/testLogin")
+    public String testLogin(HttpServletRequest request, Model m, Integer page) throws Exception{
+        request.setAttribute("msg", "good");
+        return "/login";
+    }
+
 
     @RequestMapping("/home")
     public String home(HttpServletRequest request, Model m, Integer page) throws Exception {
@@ -70,17 +78,17 @@ public class ForeController {
         }
         m.addAttribute("categories", cs);
 
-        return "home.jsp";
+        return "/home.html";
     }
 
     @RequestMapping("/userLogin")
     public String userLogin(HttpServletRequest request, Model m, Integer page) throws Exception{
-        return "login.jsp";
+        return "/login.html";
     }
 
     @RequestMapping("/userInformation")
     public String userInformation(HttpServletRequest request, Model m, Integer page) throws Exception{
-        return "userInformation.jsp";
+        return "/userInformation.html";
     }
 
     @RequestMapping("/login")
@@ -93,26 +101,26 @@ public class ForeController {
 
         if (null == user) {
             request.setAttribute("msg", "账号密码错误");
-            return "login.jsp";
+            return "/login.html";
         }
         request.getSession().setAttribute("user", user);
-        return "redirect:home";
+        return "redirect:/home";
     }
 
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request, Model m, Integer page) throws Exception{
         request.getSession().removeAttribute("user");
-        return "redirect:home";
+        return "redirect:/home";
     }
 
     @RequestMapping("/userRegister")
     public String userRegister(HttpServletRequest request, Model m, Integer page) throws Exception{
-        return "register.jsp";
+        return "/register.html";
     }
 
     @RequestMapping("/modifySuccess")
-    public String modifySucess(HttpServletRequest request, Model m, Integer page) throws Exception{
-        return "modifySuccess.jsp";
+    public String modifySuccess(HttpServletRequest request, Model m, Integer page) throws Exception{
+        return "/modifySuccess.html";
     }
 
     @RequestMapping("/register")
@@ -120,11 +128,13 @@ public class ForeController {
         String name = request.getParameter("name");
         String password = request.getParameter("password");
         name = HtmlUtils.htmlEscape(name);
-        User u = userService.findByName(name);
+        System.out.println(name);
+        User u =new User();
+        u = userService.findByName(name);
 
-        if ( u.getId() != 0) {
+        if ( u != null) {
             request.setAttribute("msg", "用户名已经被使用，不能使用");
-            return "register.jsp";
+            return "/register.html";
         }
 
         User user = new User();
@@ -132,7 +142,7 @@ public class ForeController {
         user.setPassword(password);
         userService.insert(user);
 
-        return "registerSuccess.jsp";
+        return "/registerSuccess.html";
     }
 
     @RequestMapping("/modify")
@@ -148,13 +158,14 @@ public class ForeController {
         user.setAddress(address);
         user.setPassword(password);
         userService.update(user);
-        return "modifySuccess.jsp";
+        return "/modifySuccess.html";
     }
 
     @RequestMapping("/product")
     public String product(HttpServletRequest request, Model m, Integer page) throws Exception{
         int pid = Integer.parseInt(request.getParameter("pid"));
         Product p = productService.findById(pid);
+        Category c = categoryService.findById(p.getCid());
 
         List<ProductImage> productSingleImages = productImageService.findSingleByPid(p.getId());
         List<ProductImage> productDetailImages = productImageService.findDetailByPid(p.getId());
@@ -176,8 +187,9 @@ public class ForeController {
         request.setAttribute("reviews", reviews);
 
         request.setAttribute("p", p);
+        request.setAttribute("c", c);
         request.setAttribute("pvs", pvs);
-        return "product.jsp";
+        return "/product.html";
     }
 
     @RequestMapping("/checkLogin")
@@ -270,10 +282,10 @@ public class ForeController {
         }
 
         request.setAttribute("category", category);
-        return "category.jsp";
+        return "/category.html";
     }
     @RequestMapping("/search")
-    public String search(HttpServletRequest request, HttpServletResponse response, Integer page) {
+    public String search(HttpServletRequest request, Model m, HttpServletResponse response, Integer page) {
         String keyword = request.getParameter("keyword");
         if(page == null){
             page = 1;
@@ -327,9 +339,19 @@ public class ForeController {
 
             }
         }
-        request.setAttribute("keyword",keyword);
+        System.out.println(keyword);
+        try{
+            request.setCharacterEncoding("UTF-8");
+        }
+        catch(UnsupportedEncodingException e) {
+
+        }
+        //request.setAttribute("keyword",keyword);
+        //m.addAttribute("keyword",keyword);
+        //m.addAttribute("ps",ps);
         request.setAttribute("ps", ps);
-        return "searchResult.jsp";
+        request.getSession().setAttribute("keyword", keyword);
+        return "/searchResult.html";
     }
     @RequestMapping("/buyone")
     public String buyone(HttpServletRequest request, HttpServletResponse response, Integer page) {
@@ -363,7 +385,7 @@ public class ForeController {
             orderItemService.insert(orderItem);
             orderItemId = orderItem.getId();
         }
-        return "redirect:buy?orderItemId=" + orderItemId;
+        return "redirect:/buy?orderItemId=" + orderItemId;
     }
 
     @RequestMapping("/buy")
@@ -374,23 +396,22 @@ public class ForeController {
         for (String strid : oiids) {
             int orderItemId = Integer.parseInt(strid);
             OrderItem orderItem = orderItemService.findById(orderItemId);
-            Product product = productService.findById(orderItem.getPid());
-            List<ProductImage>pis = productImageService.findSingleByPid(product.getId());
-            product.setFirstProductImage(pis.get(0));
-            orderItem.setProduct(product);
             total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
-            //orderItems.add(orderItem);
+            orderItems.add(orderItem);
         }
         request.getSession().setAttribute("orderItems", orderItems);
+        //request.setAttribute("orderItems", orderItems);
         request.setAttribute("total", total);
-        return "buy.jsp";
+        return "/buy.html";
     }
 
     @RequestMapping("/addCart")
+    @ResponseBody
     public String addCart(HttpServletRequest request, HttpServletResponse response, Integer page) {
         int pid = Integer.parseInt(request.getParameter("pid"));
         Product product = productService.findById(pid);
         int num = Integer.parseInt(request.getParameter("num"));
+        System.out.println(num+" da");
 
         User user = (User) request.getSession().getAttribute("user");
         boolean found = false;
@@ -432,7 +453,7 @@ public class ForeController {
 
         }
         request.setAttribute("orderItems", orderItems);
-        return "cart.jsp";
+        return "/cart.html";
     }
 
     @RequestMapping("/changeOrderItem")
@@ -472,7 +493,7 @@ public class ForeController {
         User user = (User) request.getSession().getAttribute("user");
         List<OrderItem> orderItems = (List<OrderItem>) request.getSession().getAttribute("orderItems");
         if (orderItems.isEmpty()) {
-            return "redirect:login.jsp";
+            return "redirect:/login.html";
         }
         String address = request.getParameter("address");
         String receiver = request.getParameter("receiver");
@@ -501,14 +522,14 @@ public class ForeController {
             total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
         }
 
-        return "redirect:alipay?oid=" + order.getId() + "&total=" + total;
+        return "redirect:/alipay?oid=" + order.getId() + "&total=" + total;
 
     }
 
     @RequestMapping("/alipay")
     public String alipay(HttpServletRequest request, HttpServletResponse response, Integer page) {
 
-        return "alipay.jsp";
+        return "/alipay.html";
     }
 
     @RequestMapping("/payed")
@@ -519,7 +540,7 @@ public class ForeController {
         order.setPayDate(new Date());
         orderService.update(order);
         request.setAttribute("o", order);
-        return "payed.jsp";
+        return "/payed.html";
     }
 
     @RequestMapping("/bought")
@@ -553,25 +574,32 @@ public class ForeController {
             o.setTotalNumber(totalNumber);
         }
         request.setAttribute("os", orders2);
-        return "bought.jsp";
+        return "/bought.html";
     }
 
     @RequestMapping("/confirmPay")
     public String confirmPay(HttpServletRequest request, HttpServletResponse response, Integer page) {
         int oid = Integer.parseInt(request.getParameter("oid"));
+
         Order o = orderService.findById(oid);
+
         List<OrderItem> ois = orderItemService.findByOid(o.getId());
         float total = 0;
         int totalNumber = 0;
         for (OrderItem oi : ois) {
-                total += oi.getNumber() * oi.getProduct().getPromotePrice();
-                totalNumber += oi.getNumber();
+            Product product = productService.findById(oi.getPid());
+            List<ProductImage>pis = productImageService.findSingleByPid(product.getId());
+            product.setFirstProductImage(pis.get(0));
+            oi.setProduct(product);
+            total += oi.getNumber() * oi.getProduct().getPromotePrice();
+            totalNumber += oi.getNumber();
         }
+
         o.setTotal(total);
         o.setOrderItems(ois);
         o.setTotalNumber(totalNumber);
         request.setAttribute("o", o);
-        return "confirmPay.jsp";
+        return "/confirmPay.html";
     }
 
     @RequestMapping("/orderConfirmed")
@@ -581,10 +609,11 @@ public class ForeController {
         o.setStatus("waitReview");
         o.setConfirmDate(new Date());
         orderService.update(o);
-        return "orderConfirmed.jsp";
+        return "/orderConfirmed.html";
     }
 
     @RequestMapping("/deleteOrder")
+    @ResponseBody
     public String deleteOrder(HttpServletRequest request, HttpServletResponse response,Integer page) {
         int oid = Integer.parseInt(request.getParameter("oid"));
         Order o = orderService.findById(oid);
@@ -597,10 +626,14 @@ public class ForeController {
     public String review(HttpServletRequest request, HttpServletResponse response, Integer page) {
         int oid = Integer.parseInt(request.getParameter("oid"));
         Order o = orderService.findById(oid);
-        List<OrderItem> ois = orderItemService.findByOid(o.getId());
+        List<OrderItem> ois = orderItemService.findByOid(oid);
         float total = 0;
         int totalNumber = 0;
         for (OrderItem oi : ois) {
+            Product product = productService.findById(oi.getPid());
+            List<ProductImage>pis = productImageService.findSingleByPid(product.getId());
+            product.setFirstProductImage(pis.get(0));
+            oi.setProduct(product);
             total += oi.getNumber() * oi.getProduct().getPromotePrice();
             totalNumber += oi.getNumber();
         }
@@ -622,7 +655,7 @@ public class ForeController {
         request.setAttribute("p", p);
         request.setAttribute("o", o);
         request.setAttribute("reviews", reviews);
-        return "review.jsp";
+        return "/review.html";
     }
 
     @RequestMapping("/doReview")
@@ -642,9 +675,11 @@ public class ForeController {
         review.setProduct(p);
         review.setCreateDate(new Date());
         review.setUser(user);
+        review.setUid(user.getId());
+        review.setPid(p.getId());
         reviewService.insert(review);
 
-        return "redirect:review?oid=" + oid + "&showonly=true";
+        return "redirect:/review?oid=" + oid + "&showonly=true";
     }
 
 

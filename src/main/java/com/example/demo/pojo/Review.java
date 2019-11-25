@@ -8,6 +8,24 @@ public class Review {
     private Date createDate; //对应数据库字段 createDate，表示评价时间
     private User user; //数据库字段 uid，外键约束 user 表的 id，评价和用户是多对一
     private Product product; //数据库字段 pid，外键约束 product 表的 id，评价和产品是多对一
+    private int uid;
+    private int pid;
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
 
     public int getId() {
         return id;

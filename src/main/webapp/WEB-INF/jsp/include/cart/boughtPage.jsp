@@ -121,13 +121,6 @@
                         <td class="orderItemProductInfoPartTD">
                             <div class="orderListItemProductLinkOutDiv">
                                 <a href="product?pid=${oi.product.id}">${oi.product.name}</a>
-                                <!--
-                                <div class="orderListItemProductLinkInnerDiv">
-                                    <img src="img/site/creditcard.png" title="支持信用卡支付">
-                                    <img src="img/site/7day.png" title="消费者保障服务,承诺7天退货">
-                                    <img src="img/site/promise.png" title="消费者保障服务,承诺如实描述">
-                                </div>
-                                -->
                             </div>
                         </td>
                         <td class="orderItemProductInfoPartTD" width="100px">

@@ -2,8 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.mapper.OrderItemMapper;
 import com.example.demo.mapper.ProductMapper;
+import com.example.demo.pojo.Order;
 import com.example.demo.pojo.OrderItem;
 import com.example.demo.pojo.Product;
+import com.example.demo.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,11 @@ public class OrderItemService {
     @Autowired
     OrderItemMapper orderItemMapper;
     @Autowired
-    ProductMapper productMapper;
+    ProductService productService;
+    @Autowired
+    OrderService orderService;
+    @Autowired
+    UserService userService;
 
     public void insert(OrderItem bean){
         orderItemMapper.insert(bean);
@@ -28,22 +34,52 @@ public class OrderItemService {
     public List<OrderItem> findByUid(int uid){
         List<OrderItem> ois = orderItemMapper.findByUid(uid);
         for(OrderItem oi :ois){
-            Product p = productMapper.findById(oi.getPid());
+            Product p = productService.findById(oi.getPid());
+            User u = userService.findById(oi.getUid());
             oi.setProduct(p);
+            oi.setUser(u);
         }
         return ois;
     }
     public List<OrderItem> findByOid(int oid){
-        return orderItemMapper.findByOid(oid);
+
+        List<OrderItem> ois = orderItemMapper.findByOid(oid);
+        for(OrderItem oi :ois){
+            Product p = productService.findById(oi.getPid());
+            User u = userService.findById(oi.getUid());
+            oi.setProduct(p);
+            oi.setUser(u);
+        }
+        return ois;
     }
     public List<OrderItem> findByPid(int pid){
-        return orderItemMapper.findByPid(pid);
+        List<OrderItem> ois = orderItemMapper.findByPid(pid);
+        for(OrderItem oi :ois){
+            Product p = productService.findById(oi.getPid());
+            User u = userService.findById(oi.getUid());
+            oi.setProduct(p);
+            oi.setUser(u);
+        }
+        return ois;
     }
     public List<OrderItem> findAll(){
-        return orderItemMapper.findAll();
+
+        List<OrderItem> ois = orderItemMapper.findAll();
+        for(OrderItem oi :ois){
+            Product p = productService.findById(oi.getPid());
+            User u = userService.findById(oi.getUid());
+            oi.setProduct(p);
+            oi.setUser(u);
+        }
+        return ois;
     }
     public OrderItem findById(int id){
-        return orderItemMapper.findById(id);
+        OrderItem oi = orderItemMapper.findById(id);
+            Product p = productService.findById(oi.getPid());
+            User u = userService.findById(oi.getUid());
+            oi.setProduct(p);
+            oi.setUser(u);
+        return oi;
     }
 
 

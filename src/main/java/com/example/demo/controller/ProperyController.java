@@ -1,14 +1,14 @@
 package com.example.demo.controller;
 
-import com.example.demo.pojo.Category;
+import com.example.demo.pojo.*;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.PropertyService;
+import com.example.demo.service.PropertyValueService;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import com.example.demo.pojo.Property;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +26,8 @@ public class ProperyController {
     PropertyService propertyService;
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    PropertyValueService propertyValueService;
 
     @RequestMapping("/listProperty")
     public String listCategory(HttpServletRequest request, Model m, Integer page) throws Exception {
@@ -41,7 +43,7 @@ public class ProperyController {
         Category category = categoryService.findById(cid);
         m.addAttribute("pageInfo", pageInfo);
         m.addAttribute("category", category);
-        return "admin/listProperty.jsp";
+        return "/admin/listProperty.html";
     }
 
     @RequestMapping("/insertProperty")
@@ -51,22 +53,43 @@ public class ProperyController {
         String subTitle= request.getParameter("subTitle");
         int cid = Integer.parseInt(request.getParameter("cid"));
         System.out.println(name);
-        Property p = new Property();
-        p.setName(name);
-        p.setCid(cid);
-        propertyService.insert(p);
+        Property pt = new Property();
+        pt.setName(name);
+        pt.setCid(cid);
+        propertyService.insert(pt);
+        Category c = categoryService.findById(cid);
+        List<Property> pts= propertyService.findByCid(cid);
+        int ptid = pts.get(pts.size()-1).getId();
+        List<Product> ps= c.getProducts();
+        for(Product p :ps){
+            PropertyValue ptv = new PropertyValue();
+            ptv.setPtid(ptid);
+            ptv.setPid(p.getId());
+            ptv.setValue("");
+            propertyValueService.insert(ptv);
+        }
 
-        return  "redirect:listProperty?cid="+cid;
+        return  "redirect:/listProperty?cid="+cid;
     }
 
     @RequestMapping("/deleteProperty")
     public String deleteCategory(HttpServletRequest request) throws Exception {
         int cid = Integer.parseInt(request.getParameter("cid"));
         int id = Integer.parseInt(request.getParameter("id"));
+
+        Category c= categoryService.findById(cid);
+        List<Product> ps= c.getProducts();
+        for(Product p: ps){
+            List<PropertyValue> ptvs = propertyValueService.findByPid(p.getId());
+            for(PropertyValue ptv:ptvs){
+                if(ptv.getPtid() == id)
+                    propertyValueService.delete(ptv.getId());
+            }
+        }
         propertyService.delete(id);
 
 
-        return  "redirect:listProperty?cid="+cid;
+        return  "redirect:/listProperty?cid="+cid;
     }
 
     @RequestMapping("/editProperty")
@@ -76,7 +99,7 @@ public class ProperyController {
         Property p = propertyService.findById(id);
         m.addAttribute("p",p);
         m.addAttribute("cid",cid);
-        return "admin/editProperty.jsp";
+        return "/admin/editProperty.html";
 
     }
 
@@ -92,7 +115,7 @@ public class ProperyController {
         propertyService.update(p);
 
 
-        return "redirect:listProperty?cid="+cid;
+        return "redirect:/listProperty?cid="+cid;
 
     }
 

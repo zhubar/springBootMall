@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div th:include="include/admin/adminHeader.html"></div>
+<div th:include="include/admin/adminNavigator.html"></div>
+<head>
+    <script>
+        $(function () {
+            $("button.orderPageCheckOrderItems").click(function () {
+                var oid = $(this).attr("oid");
+                $("tr.orderPageOrderItemTR[oid=" + oid + "]").toggle();
+            });
+        });
+    </script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="workingArea">
+    <h1 class="label label-info">订单管理</h1>
+    <br>
+    <br>
+    <div class="listDataTableDiv">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+            <thead>
+            <tr class="success">
+                <th>ID</th>
+                <th>状态</th>
+                <th>金额</th>
+                <th width="100px">商品数量</th>
+                <th width="100px">买家名称</th>
+                <th>创建时间</th>
+                <th>支付时间</th>
+                <th>发货时间</th>
+                <th>确认收货时间</th>
+                <th width="120px">操作</th>
+            </tr>
+            </thead>
+            <tbody th:each="order:${pageInfo.list}">
+                <tr >
+                    <td th:text="${order.id}">${order.id}</td>
+                    <td th:text="${order.status}">${order.status}</td>
+                    <td th:text="${order.total}">￥"${order.total}"</td>
+                    <td align="center" th:text="${order.totalNumber}">${order.totalNumber}</td>
+                    <td align="center" th:text="${order.user.name}">${order.user.name}</td>
+
+                    <td th:text="${order.createDate}" ></td>
+                    <td th:text="${order.payDate}" ></td>
+                    <td th:text="${order.deliveryDate}" ></td>
+                    <td th:text="${order.confirmDate}" ></td>
+
+                    <td>
+                        <button th:oid="${order.id}" class="orderPageCheckOrderItems btn btn-primary btn-xs">查看详情</button>
+                            <a th:if="${order.status=='waitDelivery'}"
+                               th:href="@{deliveryOrder(id = ${order.id})}">
+                                <button class="btn btn-primary btn-xs">发货</button>
+                            </a>
+                    </td>
+                </tr>
+
+                <tr class="orderPageOrderItemTR" th:oid="${order.id}">
+                    <td colspan="10" align="center">
+                        <div class="orderPageOrderItem">
+                            <table width="800px" align="center" class="orderPageOrderItemTable">
+                                    <tr th:each="oi:${order.orderItems}">
+                                        <td align="left">
+                                            <img width="40px" height="40px"
+                                                 th:src="@{img/productSingle/{filename}.jpg(filename=${oi.product.firstProductImage.id})}"
+                                        </td>
+                                        <td>
+                                            <a th:href="@{product(pid = ${oi.product.id})}">
+                                                <span th:text="${oi.product.name}">${oi.product.name}</span>
+                                            </a>
+                                        </td>
+                                        <td align="right">
+                                            <span class="text-muted" th:text="${oi.number}">${oi.number}个</span>
+                                        </td>
+                                        <td align="right">
+                                            <span class="text-muted" th:text="${oi.product.promotePrice}">单价：￥${oi.product.promotePrice}</span>
+                                        </td>
+
+                                    </tr>
+
+                            </table>
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="pageDiv" th:include="include/admin/adminPage.html"></div>
+<div th:include="include/admin/adminFooter.html"></div>
+</body>
+</html>

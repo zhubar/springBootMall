@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -58,15 +59,18 @@ public class OrderController {
         pageInfo = new PageInfo<>(os);
         m.addAttribute("pageInfo", pageInfo);
 
-        return "admin/listOrder.jsp";
+        return "/admin/listOrder.html";
     }
 
     @RequestMapping("/deliveryOrder")
     public String deliveryOrder(HttpServletRequest request) throws Exception {
         int oid = Integer.parseInt(request.getParameter("id"));
-        orderService.delivery(oid);
+        Order order = orderService.findById(oid);
+        order.setDeliveryDate(new Date());
+        order.setStatus("waitConfirm");
+        orderService.update(order);
 
-        return  "redirect:listOrder";
+        return  "redirect:/listOrder";
     }
 
 }

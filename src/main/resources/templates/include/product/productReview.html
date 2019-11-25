@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div class="productReviewDiv">
+    <div class="productReviewTopPart">
+        <a href="#nowhere" class="productReviewTopPartSelectedLink">商品详情</a>
+        <a href="#nowhere" class="selected">累计评价 <span class="productReviewTopReviewLinkNumber" th:text="p.reviewCount"></span>
+        </a>
+    </div>
+
+    <div class="productReviewContentPart">
+            <div th:each="r:${reviews}"class="productReviewItem">
+
+                <div class="productReviewItemDesc">
+                    <div class="productReviewItemContent" th:text="${r.content }">
+                        ${r.content }
+                    </div>
+                    <div class="productReviewItemDate"th:value="${r.createDate}" th:text="${r.createDate}"></div>
+                </div>
+                <div class="productReviewItemUserInfo"th:text="${r.user.anonymousName}">
+
+                    ${r.user.anonymousName}<span class="userInfoGrayPart">（匿名）</span>
+                </div>
+
+                <div style="clear:both"></div>
+
+            </div>
+    </div>
+
+</div>

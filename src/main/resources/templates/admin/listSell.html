@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div th:include="include/admin/adminHeader.html"></div>
+<div th:include="include/admin/adminNavigator.html"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="workingArea">
+    <h1 class="label label-info">销售统计</h1>
+    <br>
+    <br>
+</div>
+<div style="width:400px;margin:0px auto">
+    <canvas id="myChart" ></canvas>
+</div>
+
+<input type = "hidden" th:value="${cname}" id="cname"/>
+<input type = "hidden" th:value="${csell}" id="csell"/>
+<input type = "hidden" th:value="${pname}" id="pname"/>
+<input type = "hidden" th:value="${psell}" id="psell"/>
+<input type = "hidden" th:value="${control}" id="control"/>
+
+<ul id="myTab" class="nav nav-tabs"  >
+            <li  th:each="c,loop:${cid}" th:class="${loop.count == 1}?'active'" >
+                <a th:href="@{#${c}}" data-toggle="tab" th:id = "${c}"
+                   name = "hlink" th:value = "${c}" th:with="f=0" th:text="${cname[loop.count-1]}">
+                    ${cname[loop.count-1]}
+                </a>
+            </li>
+</ul>
+
+<div style="width:400px;margin:0px auto" id = "myNavChartPar">
+    <canvas id="myNavChart" ></canvas>
+</div>
+
+<script>
+    var number = $("#cname").val();
+    var n = $("#csell").val();
+    var cname = $("#cname").val().substring(1,number.length - 1);
+    var csell = $("#csell").val().substring(1,n.length - 1);
+    var cnameSplit = cname.split(',');
+    var csellSplit = csell.split(',');
+    function col(params){
+
+        var colorarrays = ["#2F9323","#D9B63A","#2E2AA4","#9F2E61","#4D670C","#BF675F","#1F814A","#357F88","#673509","#310937","#1B9637","#F7393C"];
+
+        return colorarrays.slice(0,params);
+
+    }
+    var co = col(cnameSplit.length);
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: cnameSplit,
+            datasets: [{
+                label: '分类销售统计',
+                data: csellSplit,
+                borderColor:'blue',
+                backgroundColor:'skyblue',
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0
+                    }
+                }]
+            }
+        }
+    });
+
+    var mumber = $("#pname").val();
+    var m = $("#psell").val();
+    var pname = $("#pname").val().substring(1,mumber.length - 1);
+    var psell = $("#psell").val().substring(1,m.length - 1);
+    var pnameSplit = pname.split(',');
+    var psellSplit = psell.split(',');
+    var ctx = document.getElementById('myNavChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: pnameSplit,
+            datasets: [{
+                label: '产品销售统计',
+                data: psellSplit,
+                borderColor:'blue',
+                backgroundColor:'skyblue',
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0
+                    }
+                }]
+            }
+        }
+    });
+
+    $('#myTab').on('click',"[name = 'hlink']",function() {
+        var data = $(this).attr('id')
+
+        $.ajax({
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            type: "GET",
+            url: "/sellAjax",
+            data:{
+                id:data
+            },
+            statusCode: {
+                404: function () {
+                    alert('page not found');
+                },
+                400: function () {
+                    alert('page not foundhjhg');
+                }
+            },
+            success: function (data) {
+                document.getElementById('myNavChart').remove();
+                $('#myNavChartPar').append('<canvas id="myNavChart"></canvas>');
+                var Split = data.split('?');
+                var mumber = Split[0];
+                var m = Split[1];
+                var pname = mumber.substring(1,mumber.length - 1);
+                var psell = m.substring(1,m.length - 1);
+                var pnameSplit = pname.split(',');
+                var psellSplit = psell.split(',');
+                var ctx = document.getElementById('myNavChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: pnameSplit,
+                        datasets: [{
+                            label: '产品销售统计',
+                            data: psellSplit,
+                            borderColor:'blue',
+                            backgroundColor:'skyblue',
+                            borderWidth: 1,
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    min: 0
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div th:include="include/admin/adminHeader.html"></div>
+<div th:include="include/admin/adminNavigator.html"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    $(function () {
+        $(".addFormSingle").submit(function () {
+            if (checkEmpty("filepathSingle", "图片文件")) {
+                $("#filepathSingle").value("");
+                return true;
+            }
+            return false;
+        });
+        $(".addFormDetail").submit(function () {
+            if (checkEmpty("filepathDetail", "图片文件"))
+                return true;
+            return false;
+        });
+    });
+
+</script>
+<body>
+<div class="workingArea">
+    <ol class="breadcrumb">
+        <li><a href="listCategory">所有分类</a></li>
+        <li><a th:href="@{listProduct(cid = ${c.id})}" th:text="${c.name}">${c.name}</a></li>
+        <li class="active" th:text="${p.name}">${p.name}</li>
+        <li class="active">产品图片管理</li>
+    </ol>
+
+    <table class="addPictureTable" align="center">
+        <tr>
+            <td class="addPictureTableTD">
+                <div>
+                    <div class="panel panel-warning addPictureDiv">
+                        <div class="panel-heading">新增产品<b class="text-primary"> 单个 </b>图片</div>
+                        <div class="panel-body">
+                            <form method="post" class="addFormSingle" action="insertProductSingleImage"
+                                  enctype="multipart/form-data">
+                                <table class="addTable">
+                                    <tr>
+                                        <td>请选择本地图片 尺寸400X400 为佳</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input id="filepathSingle" type="file" name="file"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="submitTR">
+                                        <td align="center">
+                                            <input type="hidden" name="type" value="type_single"/>
+                                            <input type="hidden" name="pid" th:value="${p.id}"/>
+                                            <button type="submit" class="btn btn-success">提 交</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover  table-condensed">
+                        <thead>
+                        <tr class="success">
+                            <th>ID</th>
+                            <th>产品单个图片缩略图</th>
+                            <th>删除</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="pi:${pisSingle}">
+                                <td th:text="${pi.id}">${pi.id}</td>
+                                <td>
+                                    <a title="点击查看原图" th:href="@{img/productSingle/{filename}.jpg(filename=${pi.id})}">
+                                        <img height="50px" th:src="@{img/productSingle/{filename}.jpg(filename=${pi.id})}"></a>
+                                </td>
+                                <td><a deleteLink="true" th:href="@{deleteProductSingleImage(pid = ${p.id},id = ${pi.id})}">
+                                    <span class="glyphicon glyphicon-trash"></span></a></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </td>
+            <td class="addPictureTableTD">
+                <div>
+
+                    <div class="panel panel-warning addPictureDiv">
+                        <div class="panel-heading">新增产品<b class="text-primary"> 详情 </b>图片</div>
+                        <div class="panel-body">
+                            <form method="post" class="addFormDetail" action="insertProductDetailImage"
+                                  enctype="multipart/form-data">
+                                <table class="addTable">
+                                    <tr>
+                                        <td>请选择本地图片 宽度790 为佳</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input id="filepathDetail" type="file" name="file"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="submitTR">
+                                        <td align="center">
+                                            <input type="hidden" name="type" value=""/>
+                                            <input type="hidden" name="pid" th:value="${p.id}"/>
+                                            <button type="submit" class="btn btn-success">提 交</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover  table-condensed">
+                        <thead>
+                        <tr class="success">
+                            <th>ID</th>
+                            <th>产品详情图片缩略图</th>
+                            <th>删除</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="pi:${pisDetail}">
+                                <td th:text="${pi.id}">${pi.id}</td>
+                                <td>
+                                    <a title="点击查看原图"  th:href="@{img/productDetail/{filename}.jpg(filename=${pi.id})}">
+                                        <img height="50px" th:src="@{img/productDetail/{filename}.jpg(filename=${pi.id})}"></a>
+                                </td>
+                                <td><a deleteLink="true" th:href="@{deleteProductDetailImage(pid = ${p.id},id = ${pi.id})}">
+                                    <span class="glyphicon glyphicon-trash"></span></a></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+<div th:include="include/admin/adminFooter.html"></div>
+</body>
+</html>

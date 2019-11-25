@@ -44,7 +44,7 @@ public class ProductController {
         Category category = categoryService.findById(cid);
         m.addAttribute("pageInfo", pageInfo);
         m.addAttribute("category", category);
-        return "admin/listProduct.jsp";
+        return "/admin/listProduct.html";
 
     }
 
@@ -52,6 +52,7 @@ public class ProductController {
     public String insertProduct(HttpServletRequest request)
             throws Exception {
         String name = request.getParameter("name");
+        String subTitle = request.getParameter("subTitle");
         int cid = Integer.parseInt(request.getParameter("cid"));
         int stock = Integer.parseInt(request.getParameter("stock"));
         float originalPrice = Float.parseFloat(request.getParameter("originalPrice"));
@@ -59,64 +60,72 @@ public class ProductController {
         Product p= new Product();
         p.setName(name);
         p.setCid(cid);
+        p.setSubTitle(subTitle);
         p.setStock(stock);
         p.setOriginalPrice(originalPrice);
         p.setPromotePrice(promotePrice);
         productService.insert(p);
 
-        return  "redirect:listProduct?cid="+cid;
+        return  "redirect:/listProduct?cid="+cid;
     }
 
     @RequestMapping("/deleteProduct")
     public String deleteProduct(HttpServletRequest request) throws Exception {
         int cid = Integer.parseInt(request.getParameter("cid"));
-        int id = Integer.parseInt(request.getParameter("id"));
-        productService.delete(id);
+        int pid = Integer.parseInt(request.getParameter("pid"));
+        productService.delete(pid);
 
 
-        return  "redirect:listProduct?cid="+cid;
+        return  "redirect:/listProduct?cid="+cid;
     }
 
     @RequestMapping("/editProduct")
     public String editProduct(Model m,HttpServletRequest request) throws Exception {
-        int cid = Integer.parseInt(request.getParameter("cid"));
-        int id = Integer.parseInt(request.getParameter("id"));
-        Product p = productService.findById(id);
+
+        int pid = Integer.parseInt(request.getParameter("pid"));
+        Product p = productService.findById(pid);
+        int cid =p.getCid();
+        Category c = categoryService.findById(p.getCid());
         m.addAttribute("p",p);
         m.addAttribute("cid",cid);
-        return "admin/editProduct.jsp";
+        m.addAttribute("c",c);
+        return "/admin/editProduct.html";
 
     }
 
     @RequestMapping("/updateProduct")
     public String updateProduct(HttpServletRequest request) throws Exception {
         String name = request.getParameter("name");
+        String subTitle = request.getParameter("subTitle");
         int cid = Integer.parseInt(request.getParameter("cid"));
-        int id = Integer.parseInt(request.getParameter("id"));
+        int pid = Integer.parseInt(request.getParameter("pid"));
         int stock = Integer.parseInt(request.getParameter("stock"));
         float originalPrice = Float.parseFloat(request.getParameter("originalPrice"));
         float promotePrice = Float.parseFloat(request.getParameter("promotePrice"));
         Product p = new Product();
         p.setCid(cid);
-        p.setId(id);
+        p.setId(pid);
         p.setName(name);
+        p.setSubTitle(subTitle);
         p.setStock(stock);
         p.setOriginalPrice(originalPrice);
         p.setPromotePrice(promotePrice);
         productService.update(p);
 
-        return "redirect:listProduct?cid="+cid;
+        return "redirect:/listProduct?cid="+cid;
 
     }
 
     @RequestMapping("/editProductPropertyValue")
     public String editProductPropertyValue(Model m,HttpServletRequest request) throws Exception {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Product p = productService.findById(id);
+        int pid = Integer.parseInt(request.getParameter("pid"));
+        Product p = productService.findById(pid);
+        Category c = categoryService.findById(p.getCid());
         m.addAttribute("p", p);
         List<PropertyValue> pvs = propertyValueService.findByPid(p.getId());
         m.addAttribute("pvs", pvs);
-        return "admin/editProductValue.jsp";
+        m.addAttribute("c", c);
+        return "/admin/editProductValue.html";
 
     }
 
@@ -125,6 +134,7 @@ public class ProductController {
     public String updateProductPropertyValue(HttpServletRequest request) throws Exception {
         int id = Integer.parseInt(request.getParameter("pvid"));
         String value = request.getParameter("value");
+        System.out.println("dwada"+id+value);
         int pid = Integer.parseInt(request.getParameter("pid"));
         int ptid = Integer.parseInt(request.getParameter("ptid"));
         PropertyValue pv = new PropertyValue();
@@ -135,6 +145,32 @@ public class ProductController {
         propertyValueService.update(pv);
         return "success";
 
+    }
+
+    @RequestMapping("/searchProduct")
+    public String searchProduct(HttpServletRequest request, Model m,Integer page)
+            throws Exception {
+        //int cid = Integer.parseInt(request.getParameter("cid"));
+        String keyword = request.getParameter("keyword");
+        PageInfo<Product> pageInfo = null;
+        if(page == null){
+            page = 1;
+        }
+        int pageSize = 20;
+        PageHelper.startPage(page,pageSize);
+        List<Product> ps= productService.search(keyword);
+        pageInfo = new PageInfo<>(ps);
+        Category category =new Category();
+        System.out.println(ps.size());
+        if(!ps.isEmpty()){
+            int cid = ps.get(0).getCid();
+            category = categoryService.findById(cid);
+        }
+
+        m.addAttribute("pageInfo", pageInfo);
+        m.addAttribute("category", category);
+
+        return  "/admin/searchResult.html";
     }
 
 

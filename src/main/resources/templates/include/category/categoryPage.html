@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div id="category">
+    <div class="categoryPageDiv">
+        <img th:src="@{img/category/{filename}.jpg(filename=${category.id})}">
+        <div th:include="include/category/sortBar.html"></div>
+        <div th:include="include/category/productsByCategory.html"></div>
+    </div>
+
+</div>

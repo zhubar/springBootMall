@@ -46,7 +46,8 @@ public class CategoryController  {
         pageInfo = new PageInfo<>(cs);
         m.addAttribute("pageInfo", pageInfo);
 
-        return "admin/listCategory.jsp";
+        //return "/admin/listCategory.jsp";
+        return "/admin/listCategory.html";
     }
 
     @RequestMapping("/insertCategory")
@@ -74,7 +75,7 @@ public class CategoryController  {
             return "上传失败," + e.getMessage();
         }
 
-        return  "redirect:listCategory";
+        return  "redirect:/listCategory";
     }
 
     @RequestMapping("/editCategory")
@@ -82,7 +83,7 @@ public class CategoryController  {
         int cid = Integer.parseInt(request.getParameter("cid"));
         Category c = categoryService.findById(cid);
         m.addAttribute("category",c);
-        return "admin/editCategory.jsp";
+        return "/admin/editCategory.html";
 
     }
 
@@ -113,7 +114,7 @@ public class CategoryController  {
 
 
 
-        return "redirect:listCategory";
+        return "redirect:/listCategory";
 
     }
 
@@ -129,7 +130,7 @@ public class CategoryController  {
         File destFile = new File(destFileName);
         destFile.delete();
 
-        return  "redirect:listCategory";
+        return  "redirect:/listCategory";
     }
 
 

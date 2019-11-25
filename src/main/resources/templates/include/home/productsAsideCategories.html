@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<script>
+    $(function () {
+        $("div.productsAsideCategorys div.row a").each(function () {
+            var v = Math.round(Math.random() * 6);
+            if (v == 1)
+                $(this).css("color", "#87CEFA");
+        });
+    });
+
+</script>
+    <div  th:each="category:${categories}"
+          th:cid="${category.id}" class="productsAsideCategorys">
+            <div th:each="ps:${category.productsByRow}"  class="row show1">
+                        <a th:each="p,st:${ps}" th:if="${p.subTitle != null}"
+                           th:href="@{product(pid=${p.id})}">
+                                    <span th:if="${st.index!=0}" th:text="${p.subTitle}">
+                                    ${title}
+                                    </span>
+                        </a>
+                <div class="seperator"></div>
+            </div>
+    </div>

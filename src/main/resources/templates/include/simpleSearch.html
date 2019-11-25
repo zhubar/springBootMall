@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div>
+    <a th:href="@{${contextPath}}">
+        <img id="simpleLogo" class="simpleLogo" src="img/site/titleLogo.png">
+    </a>
+    <form action="search" method="post">
+        <div class="searchDiv pull-right">
+            <input type="text" placeholder="" name="keyword">
+            <button class="searchButton" type="submit">搜索</button>
+            <div class="searchBelow">
+                        <span th:each="category,st:${categories}">
+                            <a th:if="${st.count >= 8 and st.count <= 11}"
+                               th:href="@{category(cid=${category.id})}" th:text="${category.name}">
+                                    ${category.name}
+                            </a>
+                                <span th:if="${st.count >= 8 and st.count <= 11 and st.count != 11}">|</span>
+                        </span>
+            </div>
+        </div>
+    </form>
+    <div style="clear:both"></div>
+</div>

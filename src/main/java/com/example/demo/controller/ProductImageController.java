@@ -5,6 +5,9 @@ import com.example.demo.mapper.ProductMapper;
 import com.example.demo.pojo.Category;
 import com.example.demo.pojo.Product;
 import com.example.demo.pojo.ProductImage;
+import com.example.demo.service.CategoryService;
+import com.example.demo.service.ProductImageService;
+import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,23 +26,27 @@ import com.example.demo.util.ImageUtil;
 public class ProductImageController {
 
     @Autowired
-    ProductMapper productMapper;
+    ProductImageService productImageService;
     @Autowired
-    ProductImageMapper productImageMapper;
+    ProductService productService;
+    @Autowired
+    CategoryService categoryService;
 
     @RequestMapping("/listProductImage")
     public String listProductImage(Model m, HttpServletRequest request){
-        int pid = Integer.parseInt(request.getParameter("id"));
-        Product p =productMapper.findById(pid);
+        int pid = Integer.parseInt(request.getParameter("pid"));
+        Product p =productService.findById(pid);
+        Category c = categoryService.findById(p.getCid());
 
-        List<ProductImage> pisSingle = productImageMapper.findSingleByPid(pid);
-        List<ProductImage> pisDetail = productImageMapper.findDetailByPid(pid);
+        List<ProductImage> pisSingle = productImageService.findSingleByPid(pid);
+        List<ProductImage> pisDetail = productImageService.findDetailByPid(pid);
 
         m.addAttribute("p", p);
+        m.addAttribute("c", c);
         m.addAttribute("pisSingle", pisSingle);
         m.addAttribute("pisDetail", pisDetail);
 
-        return "admin/listProductImage.jsp";
+        return "/admin/listProductImage.html";
 
     }
 
@@ -47,7 +54,7 @@ public class ProductImageController {
     public String deleteProductSingleImage(HttpServletRequest request) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));
         int pid = Integer.parseInt(request.getParameter("pid"));
-        productImageMapper.delete(id);
+        productImageService.delete(id);
 
         String fileName = id + ".jpg";
         //3.通过req.getServletContext().getRealPath("") 获取当前项目的真实路径，然后拼接前面的文件名
@@ -66,14 +73,14 @@ public class ProductImageController {
         File destFile_small = new File(destFileName_small);
         destFile_small.delete();
 
-        return  "redirect:listProductImage?id="+pid;
+        return  "redirect:/listProductImage?id="+pid;
     }
 
     @RequestMapping("/deleteProductDetailImage")
     public String deleteProductDetailImage(HttpServletRequest request) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));
         int pid = Integer.parseInt(request.getParameter("pid"));
-        productImageMapper.delete(id);
+        productImageService.delete(id);
 
         String fileName = id + ".jpg";
         //3.通过req.getServletContext().getRealPath("") 获取当前项目的真实路径，然后拼接前面的文件名
@@ -83,7 +90,7 @@ public class ProductImageController {
         destFile.delete();
 
 
-        return  "redirect:listProductImage?id="+pid;
+        return  "redirect:/listProductImage?id="+pid;
     }
 
     @RequestMapping("/insertProductDetailImage")
@@ -93,7 +100,7 @@ public class ProductImageController {
         ProductImage pi = new ProductImage();
         pi.setPid(pid);
         pi.setType("type_detail");
-        productImageMapper.insert(pi);
+        productImageService.insert(pi);
 
         try {
             String fileName = pi.getId() + ".jpg";
@@ -108,7 +115,7 @@ public class ProductImageController {
             return "上传失败," + e.getMessage();
         }
 
-        return  "redirect:listProductImage?id="+pid;
+        return  "redirect:/listProductImage?id="+pid;
     }
 
     @RequestMapping("/insertProductSingleImage")
@@ -118,15 +125,13 @@ public class ProductImageController {
         ProductImage pi = new ProductImage();
         pi.setPid(pid);
         pi.setType("type_single");
-        productImageMapper.insert(pi);
+        productImageService.insert(pi);
 
         try {
             String fileName = pi.getId() + ".jpg";
             String destFileName = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\productSingle\\"+ fileName;
             File destFile = new File(destFileName);
             file.transferTo(destFile);
-
-            System.out.println("adwada");
 
 
             String destFileName_middle = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\productSingle_middle\\"+ fileName;
@@ -146,7 +151,7 @@ public class ProductImageController {
             return "上传失败," + e.getMessage();
         }
 
-        return  "redirect:listProductImage?id="+pid;
+        return  "redirect:/listProductImage?id="+pid;
     }
 
 }

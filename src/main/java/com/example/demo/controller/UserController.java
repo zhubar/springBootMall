@@ -29,6 +29,6 @@ public class UserController {
         pageInfo = new PageInfo<>(us);
         m.addAttribute("pageInfo", pageInfo);
 
-        return "admin/listUser.jsp";
+        return "/admin/listUser.html";
     }
 }

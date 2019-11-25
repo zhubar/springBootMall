@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div class="homepageCategoryProducts"
+     th:with="categorycount=${param.categorycount ==null?100:param.categorycount}">
+            <div th:each="category,stc:${categories}"
+                 th:if="${stc.count<=categorycount}"
+                 class="eachHomepageCategoryProducts">
+                <div class="left-mark"></div>
+                <span class="categoryTitle">
+                    <a th:href ="@{category(cid=${category.id})}" style="font-size: 30px" th:text="${category.name}">
+                            ${category.name}
+                    </a>
+                </span>
+                <br>
+                <div th:each="p,st:${category.products}"
+                             th:if="${st.count<=5}"
+                             class="productItem">
+                            <a th:href="@{product(pid=${p.id})}">
+                                <img width="100px"
+                                     th:src="@{img/productSingle_middle/{filename}.jpg(filename=${p.firstProductImage.id})}"></a>
+                            <a class="productItemDescLink" th:href="@{product(pid=${p.id})}">
+                                <span class="productItemDesc" th:text=" ${p.name}">[热销]
+                                ${fn:substring(p.name, 0, 20)}
+                                </span>
+                            </a>
+                            <span class="productPrice" th:value="${p.promotePrice}" th:text="${p.promotePrice}">
+                            </span>
+                </div>
+                <div style="clear:both"></div>
+                <a href ="category?cid=${category.id}" style="float: right;font-size: 20px">more</a>
+            </div>
+
+
+    <img id="endpng" class="endpng" src="img/site/end.png">
+
+</div>

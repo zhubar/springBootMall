@@ -58,7 +58,7 @@
     </div>
 
     <div class="pageDiv">
-        <%@include file="../include/admin/adminPage.jsp" %>
+        <%@include file="../include/admin/propertyPage.jsp" %>
     </div>
 
     <div class="panel panel-warning addDiv">

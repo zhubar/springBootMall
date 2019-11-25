@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<script>
+    $(function () {
+        $("ul.pagination li.disabled a").click(function () {
+            return false;
+        });
+    });
+
+</script>
+
+<nav>
+    <ul th:class="pagination">
+        <li th:class="${pageInfo.hasPreviousPage == false}?'disabled'">
+            <a th:href="@{?(cid=${category.id},page=${pageInfo.firstPage})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <li th:class="${pageInfo.hasPreviousPage == false}?'disabled'">
+            <a th:href="@{?(cid=${category.id},page=${pageInfo.prePage})}" aria-label="Previous">
+                <span aria-hidden="true">&lsaquo;</span>
+            </a>
+        </li>
+
+
+        <li th:each="status:${#numbers.sequence(1,pageInfo.pages)}"
+            th:if="${status - pageInfo.pageNum<=2 && status - pageInfo.pageNum>=-2}"
+            th:class="${status==pageInfo.pageNum}?'disabled'">
+            <a th:href="@{?(cid=${category.id},page=${status})}" th:class="${status==pageInfo.pageNum}?'current'"
+               th:text="${status}">${status}</a>
+        </li>
+
+
+        <li th:class="${pageInfo.hasNextPage == false}?'disabled'">
+            <a th:href="@{?(cid=${category.id},page=${pageInfo.nextPage})}" aria-label="Next">
+                <span aria-hidden="true">&rsaquo;</span>
+            </a>
+        </li>
+        <li th:class="${pageInfo.hasNextPage == false}?'disabled'">
+            <a th:href="@{?(cid=${category.id},page=${pageInfo.lastPage})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

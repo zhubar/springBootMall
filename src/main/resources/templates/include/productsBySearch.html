@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" isELIgnored="false" pageEncoding="UTF-8"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div class="searchProducts">
+        <div th:each="p:${ps}" class="productUnit" th:price="${p.promotePrice}">
+            <a th:href="@{product(pid=${p.id})}">
+                <img class="productImage" th:src="@{img/productSingle/{filename}.jpg(filename=${p.firstProductImage.id})}">
+            </a>
+            <span class="productPrice" th:text="${p.promotePrice}"></span>
+            <a class="productLink" href="product?pid=${p.id}" th:text="${p.name}">
+                ${fn:substring(p.name, 0, 50)}
+            </a>
+
+            <div class="productInfo">
+                <span class="monthDeal ">月成交 <span class="productDealNumber" th:text="${p.saleCount}">笔</span></span>
+                <span class="productReview">评价<span class="productReviewNumber" th:text="${p.reviewCount}"></span></span>
+            </div>
+        </div>
+
+        <div th:if="${ps == null}" class="noMatch">没有满足条件的产品
+            <div style="clear:both"></div>
+        </div>
+</div>
