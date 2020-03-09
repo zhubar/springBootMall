@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -88,6 +89,7 @@ public class SellController {
     }
 
     @RequestMapping("/sellAjax")
+    @ResponseBody
     public String ajax(HttpServletRequest request, HttpServletResponse response){
         int cid = Integer.parseInt(request.getParameter("id"));
         List<Product>pro = productMapper.findByCid(cid);

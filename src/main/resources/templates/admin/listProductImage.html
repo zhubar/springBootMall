@@ -28,10 +28,10 @@
 <body>
 <div class="workingArea">
     <ol class="breadcrumb">
-        <li><a href="listCategory">所有分类</a></li>
+        <li><a href="listCategory">Category</a></li>
         <li><a th:href="@{listProduct(cid = ${c.id})}" th:text="${c.name}">${c.name}</a></li>
         <li class="active" th:text="${p.name}">${p.name}</li>
-        <li class="active">产品图片管理</li>
+        <li class="active">prodcutPhoto</li>
     </ol>
 
     <table class="addPictureTable" align="center">
@@ -39,16 +39,16 @@
             <td class="addPictureTableTD">
                 <div>
                     <div class="panel panel-warning addPictureDiv">
-                        <div class="panel-heading">新增产品<b class="text-primary"> 单个 </b>图片</div>
+                        <div class="panel-heading">addProduct<b class="text-primary">single</b>photo</div>
                         <div class="panel-body">
                             <form method="post" class="addFormSingle" action="insertProductSingleImage"
                                   enctype="multipart/form-data">
                                 <table class="addTable">
                                     <tr>
-                                        <td>请选择本地图片 尺寸400X400 为佳</td>
+                                        <td>please choose photo(400X400 is best)</td>
                                     </tr>
                                     <tr>
-                                        <td>
+                                        <td align="center">
                                             <input id="filepathSingle" type="file" name="file"/>
                                         </td>
                                     </tr>
@@ -56,7 +56,7 @@
                                         <td align="center">
                                             <input type="hidden" name="type" value="type_single"/>
                                             <input type="hidden" name="pid" th:value="${p.id}"/>
-                                            <button type="submit" class="btn btn-success">提 交</button>
+                                            <button type="submit" class="btn btn-success">submit</button>
                                         </td>
                                     </tr>
                                 </table>
@@ -66,14 +66,12 @@
                     <table class="table table-striped table-bordered table-hover  table-condensed">
                         <thead>
                         <tr class="success">
-                            <th>ID</th>
-                            <th>产品单个图片缩略图</th>
-                            <th>删除</th>
+                            <th>single photo of product</th>
+                            <th>delete</th>
                         </tr>
                         </thead>
                         <tbody>
                             <tr th:each="pi:${pisSingle}">
-                                <td th:text="${pi.id}">${pi.id}</td>
                                 <td>
                                     <a title="点击查看原图" th:href="@{img/productSingle/{filename}.jpg(filename=${pi.id})}">
                                         <img height="50px" th:src="@{img/productSingle/{filename}.jpg(filename=${pi.id})}"></a>
@@ -91,16 +89,16 @@
                 <div>
 
                     <div class="panel panel-warning addPictureDiv">
-                        <div class="panel-heading">新增产品<b class="text-primary"> 详情 </b>图片</div>
+                        <div class="panel-heading">addProduct<b class="text-primary"> detail </b>photo</div>
                         <div class="panel-body">
                             <form method="post" class="addFormDetail" action="insertProductDetailImage"
                                   enctype="multipart/form-data">
                                 <table class="addTable">
                                     <tr>
-                                        <td>请选择本地图片 宽度790 为佳</td>
+                                        <td>please choose photo(width = 790 is best)</td>
                                     </tr>
                                     <tr>
-                                        <td>
+                                        <td align="center">
                                             <input id="filepathDetail" type="file" name="file"/>
                                         </td>
                                     </tr>
@@ -108,7 +106,7 @@
                                         <td align="center">
                                             <input type="hidden" name="type" value=""/>
                                             <input type="hidden" name="pid" th:value="${p.id}"/>
-                                            <button type="submit" class="btn btn-success">提 交</button>
+                                            <button type="submit" class="btn btn-success">submit</button>
                                         </td>
                                     </tr>
                                 </table>
@@ -118,14 +116,12 @@
                     <table class="table table-striped table-bordered table-hover  table-condensed">
                         <thead>
                         <tr class="success">
-                            <th>ID</th>
-                            <th>产品详情图片缩略图</th>
-                            <th>删除</th>
+                            <th>detail photo of product</th>
+                            <th>delete</th>
                         </tr>
                         </thead>
                         <tbody>
                             <tr th:each="pi:${pisDetail}">
-                                <td th:text="${pi.id}">${pi.id}</td>
                                 <td>
                                     <a title="点击查看原图"  th:href="@{img/productDetail/{filename}.jpg(filename=${pi.id})}">
                                         <img height="50px" th:src="@{img/productDetail/{filename}.jpg(filename=${pi.id})}"></a>

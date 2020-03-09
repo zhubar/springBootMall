@@ -26,7 +26,7 @@
 
 
         <li th:each="status:${#numbers.sequence(1,pageInfo.pages)}"
-            th:if="${status - pageInfo.pageNum<=2 && status - pageInfo.pageNum>=-2}"
+            th:if="${status - pageInfo.pageNum<=2 && status - pageInfo.pageNum>=-2&&pageInfo.pages>0}"
             th:class="${status==pageInfo.pageNum}?'disabled'">
             <a th:href="@{?(page=${status})}" th:class="${status==pageInfo.pageNum}?'current'"
                th:text="${status}">${status}</a>

@@ -10,22 +10,22 @@
             <div style="clear:both"></div>
         </div>
         <div class="address">
-            <div class="addressTip">输入收货地址</div>
+            <div class="addressTip">reveive address</div>
             <div>
 
                 <table class="addressTable">
                     <tr>
-                        <td class="firstColumn">详细地址<span class="redStar">*</span></td>
+                        <td class="firstColumn">detail address<span class="redStar">*</span></td>
 
-                        <td><textarea name="address" th:value ="${session.user.address}"  th:placeholder="${session.user.address}"></textarea></td>
+                        <td><input name="address" th:value ="${session.user.address}"  th:placeholder="${session.user.address}"></input></td>
                     </tr>
 
                     <tr>
-                        <td>收货人姓名<span class="redStar">*</span></td>
+                        <td>receiver<span class="redStar">*</span></td>
                         <td><input name="receiver" th:value ="${session.user.receiver}" th:placeholder="${session.user.receiver}" type="text"></td>
                     </tr>
                     <tr>
-                        <td>手机号码 <span class="redStar">*</span></td>
+                        <td>phone number <span class="redStar">*</span></td>
                         <td><input name="mobile" th:value ="${session.user.mobile}" th:placeholder="${session.user.mobile}" type="text"></td>
                     </tr>
                 </table>
@@ -34,7 +34,7 @@
 
         </div>
         <div class="productList">
-            <div class="productListTip">确认订单信息</div>
+            <div class="productListTip">confirm order information</div>
 
             <table class="productListTable">
                 <thead>
@@ -46,10 +46,10 @@
                         <a class="marketLink" href="#nowhere">mall</a>
                         <a class="wangwanglink" href="#nowhere"> <span class="wangwangGif"></span> </a>
                     </th>
-                    <th>单价</th>
-                    <th>数量</th>
-                    <th>小计</th>
-                    <th>配送方式</th>
+                    <th>unit price</th>
+                    <th>number</th>
+                    <th>total</th>
+                    <th>distribution mode</th>
                 </tr>
                 <tr class="rowborder">
                     <td colspan="2"></td>
@@ -70,9 +70,9 @@
                                 ${oi.product.name}
                             </a>
 
-                            <img src="img/site/creditcard.png" title="支持信用卡支付">
-                            <img src="img/site/7day.png" title="消费者保障服务,承诺7天退货">
-                            <img src="img/site/promise.png" title="消费者保障服务,承诺如实描述">
+                            <img src="img/site/creditcard.png" title="pay by credit card">
+                            <img src="img/site/7day.png" title="return in 7 days">
+                            <img src="img/site/promise.png" title="service ensure">
 
                         </td>
                         <td>
@@ -90,11 +90,11 @@
                                     rowspan="5" class="orderItemLastTD">
                                 <label class="orderItemDeliveryLabel">
                                     <input type="radio" value="" checked="checked">
-                                    普通配送
+                                    normal distribution
                                 </label>
 
                                 <select class="orderItemDeliverySelect">
-                                    <option>快递 免邮费</option>
+                                    <option>delivery</option>
                                 </select>
 
                             </td>
@@ -106,14 +106,14 @@
             </table>
             <div class="orderItemSumDiv">
                 <div class="pull-left">
-                    <span class="leaveMessageText">给卖家留言:</span>
+                    <span class="leaveMessageText">leave a message: </span>
                     <span>
                     <img class="leaveMessageImg" src="img/site/leaveMessage.png">
                 </span>
                     <span class="leaveMessageTextareaSpan">
                     <textarea name="userMessage" class="leaveMessageTextarea"></textarea>
                     <div>
-                        <span>最多可输入200个字符</span>
+                        <span></span>
                     </div>
                 </span>
                 </div>
@@ -125,7 +125,7 @@
 
         <div class="orderItemTotalSumDiv">
             <div class="pull-right">
-                <span>实付款：</span>
+                <span>money:</span>
                 <span class="orderItemTotalSumSpan" th:value="${total}" th:text="${total}">
 
                 </span>
@@ -133,7 +133,7 @@
         </div>
 
         <div class="submitOrderDiv">
-            <button type="submit" class="submitOrderButton">提交订单</button>
+            <button type="submit" class="submitOrderButton">submir order</button>
         </div>
     </form>
 </div>

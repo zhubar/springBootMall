@@ -54,7 +54,7 @@ public class ForeController {
         if(page == null){
             page = 1;
         }
-        int pageSize =17;
+        int pageSize =15;
         PageHelper.startPage(page,pageSize);
         List<Category> cs =categoryService.findAll();
         for(Category c :cs){
@@ -96,11 +96,9 @@ public class ForeController {
         String name = request.getParameter("name");
         name = HtmlUtils.htmlEscape(name);
         String password = request.getParameter("password");
-
         User user = userService.findByNameAndPassword(name,password);
-
         if (null == user) {
-            request.setAttribute("msg", "账号密码错误");
+            request.setAttribute("msg", "password error");
             return "/login.html";
         }
         request.getSession().setAttribute("user", user);
@@ -133,7 +131,7 @@ public class ForeController {
         u = userService.findByName(name);
 
         if ( u != null) {
-            request.setAttribute("msg", "用户名已经被使用，不能使用");
+            request.setAttribute("msg", "username has registered");
             return "/register.html";
         }
 
@@ -304,14 +302,7 @@ public class ForeController {
                         }
                     });
                     break;
-                case "date":
-                    Collections.sort(ps, new Comparator<Product>() {
-                        @Override
-                        public int compare(Product p1, Product p2) {
-                            return p1.getCreateDate().compareTo(p2.getCreateDate());
-                        }
-                    });
-                    break;
+
                 case "saleCount":
                     Collections.sort(ps, new Comparator<Product>() {
                         @Override
@@ -339,7 +330,6 @@ public class ForeController {
 
             }
         }
-        System.out.println(keyword);
         try{
             request.setCharacterEncoding("UTF-8");
         }
@@ -361,30 +351,15 @@ public class ForeController {
         int orderItemId = 0;
 
         User user = (User) request.getSession().getAttribute("user");
-        boolean found = false;
-        List<OrderItem> orderItems = orderItemService.findByUid(user.getId());
-        for (OrderItem orderItem : orderItems) {
-            Product product = productService.findById(orderItem.getPid());
-            orderItem.setProduct(product);
-            if (orderItem.getProduct().getId() == p.getId()) {
-                orderItem.setNumber(orderItem.getNumber() + num);
-                orderItemService.update(orderItem);
-                found = true;
-                orderItemId = orderItem.getId();
-                break;
-            }
-        }
-        if (!found) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setUser(user);
-            orderItem.setUid(user.getId());
-            orderItem.setNumber(num);
-            orderItem.setProduct(p);
-            orderItem.setPid(p.getId());
-            orderItem.setOid(0);
-            orderItemService.insert(orderItem);
-            orderItemId = orderItem.getId();
-        }
+        OrderItem orderItem = new OrderItem();
+        orderItem.setUser(user);
+        orderItem.setUid(user.getId());
+        orderItem.setNumber(num);
+        orderItem.setProduct(p);
+        orderItem.setPid(p.getId());
+        orderItem.setOid(0);
+        orderItemService.insert(orderItem);
+        orderItemId = orderItem.getId();
         return "redirect:/buy?orderItemId=" + orderItemId;
     }
 
@@ -411,20 +386,21 @@ public class ForeController {
         int pid = Integer.parseInt(request.getParameter("pid"));
         Product product = productService.findById(pid);
         int num = Integer.parseInt(request.getParameter("num"));
-        System.out.println(num+" da");
 
         User user = (User) request.getSession().getAttribute("user");
         boolean found = false;
 
         List<OrderItem> orderItems = orderItemService.findByUid(user.getId());
         for (OrderItem orderItem : orderItems) {
-            Product p = productService.findById(orderItem.getPid());
-            orderItem.setProduct(p);
-            if (orderItem.getProduct().getId() == product.getId()) {
-                orderItem.setNumber(orderItem.getNumber() + num);
-                orderItemService.update(orderItem);
-                found = true;
-                break;
+            if(orderItem.getOid()==0) {
+                Product p = productService.findById(orderItem.getPid());
+                orderItem.setProduct(p);
+                if (orderItem.getProduct().getId() == product.getId()) {
+                    orderItem.setNumber(orderItem.getNumber() + num);
+                    orderItemService.update(orderItem);
+                    found = true;
+                    break;
+                }
             }
         }
 
@@ -497,11 +473,12 @@ public class ForeController {
         }
         String address = request.getParameter("address");
         String receiver = request.getParameter("receiver");
+        System.out.println(address);
         String mobile = request.getParameter("mobile");
         String userMessage = request.getParameter("userMessage");
 
         Order order = new Order();
-        String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()); //+ RandomUtils.nextInt(10000);
+        String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
 
         order.setOrderCode(orderCode);
         order.setAddress(address);
@@ -625,6 +602,7 @@ public class ForeController {
     @RequestMapping("/review")
     public String review(HttpServletRequest request, HttpServletResponse response, Integer page) {
         int oid = Integer.parseInt(request.getParameter("oid"));
+        int pid = Integer.parseInt(request.getParameter("pid"));
         Order o = orderService.findById(oid);
         List<OrderItem> ois = orderItemService.findByOid(oid);
         float total = 0;
@@ -641,7 +619,7 @@ public class ForeController {
         o.setOrderItems(ois);
         o.setTotalNumber(totalNumber);
 
-        Product p = o.getOrderItems().get(0).getProduct();
+        Product p = productService.findById(pid);
         List<Review> reviews = reviewService.findByPid(p.getId());
         List<OrderItem> orderItems = orderItemService.findByPid(p.getId());
         int sell = 0;
@@ -679,7 +657,8 @@ public class ForeController {
         review.setPid(p.getId());
         reviewService.insert(review);
 
-        return "redirect:/review?oid=" + oid + "&showonly=true";
+        //return "redirect:/review?oid=" + oid+"&pid="+pid + "&showonly=true";
+        return "redirect:/bought";
     }
 
 

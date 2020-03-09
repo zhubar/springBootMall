@@ -59,39 +59,39 @@
 
         <table class="registerTable" align="center">
             <tr>
-                <td  class="registerTip registerTableLeftTD">设置个人信息</td>
+                <td  class="registerTip registerTableLeftTD">set information</td>
                 <td></td>
             </tr>
             <tr>
-                <td class="registerTableLeftTD">收件人</td>
+                <td class="registerTableLeftTD">receiver</td>
                 <td  class="registerTableRightTD"><input id="receiver"
                       name="receiver" type = "text" th:value = "${session.user.receiver}" th:placeholder="${session.user.receiver}" > </td>
             </tr>
             <tr>
-                <td class="registerTableLeftTD">手机号码</td>
+                <td class="registerTableLeftTD">phone number</td>
                 <td class="registerTableRightTD">
                     <input id="mobile" name="mobile"
                            type = "text" th:value = "${session.user.mobile}"  th:placeholder="${session.user.mobile}" > </td>
             </tr>
             <tr>
-                <td class="registerTableLeftTD">收货地址</td>
+                <td class="registerTableLeftTD">address</td>
                 <td class="registerTableRightTD">
                     <input id="address" name ="address"  type = "text"
                            th:value = "${session.user.address}" th:placeholder="${session.user.address}" > </td>
             </tr>
             <tr>
-                <td class="registerTableLeftTD">密码</td>
+                <td class="registerTableLeftTD">password</td>
                 <td class="registerTableRightTD">
                     <input id="password" name ="password"  type = "password" th:value = "${session.user.password}" th:placeholder="${session.user.password}" > </td>
             </tr>
             <tr>
-                <td class="registerTableLeftTD">密码确认</td>
+                <td class="registerTableLeftTD">confirm password</td>
                 <td class="registerTableRightTD"><input id="repeatpassword" type="password" th:value = "${session.user.password}"   placeholder="请再次输入你的密码" > </td>
             </tr>
 
             <tr>
                 <td colspan="2" class="registerButtonTD">
-                    <a href="modifySuccess"><button>提   交</button></a>
+                    <a href="modifySuccess"><button>submit</button></a>
                 </td>
             </tr>
         </table>

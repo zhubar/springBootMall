@@ -17,17 +17,17 @@
 
     </div>
     <div class="confirmPayOrderInfoDiv">
-        <div class="confirmPayOrderInfoText">我已收到货，同意支付宝付款</div>
+        <div class="confirmPayOrderInfoText">already receive</div>
     </div>
     <div class="confirmPayOrderItemDiv">
-        <div class="confirmPayOrderItemText">订单信息</div>
+        <div class="confirmPayOrderItemText">order information</div>
         <table class="confirmPayOrderItemTable">
             <thead>
-            <th colspan="2">宝贝</th>
-            <th width="120px">单价</th>
-            <th width="120px">数量</th>
-            <th width="120px">商品总价 </th>
-            <th width="120px">运费</th>
+            <th colspan="2">product</th>
+            <th width="120px">unit price</th>
+            <th width="120px">number</th>
+            <th width="120px">total money</th>
+            <th width="120px">freight price</th>
             </thead>
                 <tr th:each="oi:${o.orderItems}">
                     <td><img width="50px" th:src="@{img/productSingle_middle/{filename}.jpg(filename = ${oi.product.firstProductImage.id})}"></td>
@@ -39,7 +39,7 @@
                     <td><span class="conformPayProductPrice" th:value="${oi.product.promotePrice}" th:text="${oi.product.promotePrice}">￥
                     </span>
                     </td>
-                    <td><span>快递 ： 0.00 </span></td>
+                    <td><span>freight price: 0.00 </span></td>
                 </tr>
         </table>
 
@@ -53,26 +53,26 @@
 
         <table class="confirmPayOrderDetailTable">
             <tr>
-                <td>订单编号：</td>
+                <td>order code:</td>
                 <td th:text="${o.orderCode}">${o.orderCode} <img width="23px" src="img/site/confirmOrderTmall.png"></td>
             </tr>
             <tr>
-                <td>卖家昵称：</td>
-                <td>天猫商铺 <span class="confirmPayOrderDetailWangWangGif"></span></td>
+                <td>name:</td>
+                <td>mall <span class="confirmPayOrderDetailWangWangGif"></span></td>
             </tr>
             <tr>
-                <td>收货信息： </td>
+                <td>receive information： </td>
                 <td th:text="${o.address}+','+${o.receiver}+','+ ${o.mobile}">${o.address}，${o.receiver}， ${o.mobile} </td>
             </tr>
             <tr>
-                <td>成交时间：</td>
+                <td>deal time:</td>
                 <td th:value="${o.createDate}" th:text="${o.createDate}"></td>
             </tr>
         </table>
 
     </div>
     <div class="confirmPayButtonDiv">
-        <div class="confirmPayWarning">请收到货后，再确认收货！否则您可能钱货两空！</div>
-        <a th:href="@{orderConfirmed(oid=${o.id})}"><button class="confirmPayButton">确认支付</button></a>
+        <div class="confirmPayWarning">please confirm receive</div>
+        <a th:href="@{orderConfirmed(oid=${o.id})}"><button class="confirmPayButton">confrim pay</button></a>
     </div>
 </div>

@@ -6,9 +6,18 @@ public class Category {
 
     private String name;
     private int id;
+    private  List<Property> propertys;
     List<Product> products;
     List<List<Product>> productsByRow;
     int sell;
+
+    public List<Property> getPropertys() {
+        return propertys;
+    }
+
+    public void setPropertys(List<Property> propertys) {
+        this.propertys = propertys;
+    }
 
     public int getId() {
         return id;

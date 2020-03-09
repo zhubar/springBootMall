@@ -33,14 +33,14 @@
 <body>
 <div class="workingArea">
     <ol class="breadcrumb">
-        <li><a href="listCategory">所有分类</a></li>
+        <li><a href="listCategory">Category</a></li>
         <li><a th:href="@{listProduct(cid = ${c.id})}" th:text="${c.name}">${c.name}</a></li>
         <li class="active" th:text="${p.name}">${p.name}</li>
-        <li class="active">编辑产品属性</li>
+        <li class="active">edit Product Value</li>
     </ol>
 
-    <div class="editPVDiv" th:each="pv:${pvs}">
-            <div class="eachPV">
+    <div class="editPVDiv" >
+            <div class="eachPV" th:each="pv:${pvs}">
                 <span class="pvName" th:text="${pv.property.name}">${pv.property.name}</span>
                 <span class="pvValue"><input class="pvValue" th:pid = "${pv.product.id}" th:ptid = "${pv.property.id}" th:pvid="${pv.id}" type="text" th:value="${pv.value}"></span>
             </div>
@@ -53,7 +53,7 @@
                 <tr class="submitTR">
                     <td colspan="2" align="center">
                         <a th:href="@{listProduct(cid = ${c.id})}">
-                            <button type="submit" class="btn btn-success">提交</button>
+                            <button type="submit" class="btn btn-success">submit</button>
                         </a>
                     </td>
                 </tr>

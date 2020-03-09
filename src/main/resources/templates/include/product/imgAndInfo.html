@@ -161,29 +161,29 @@
             </div>
             <div class="productPriceDiv">
                 <div class="gouwujuanDiv"><img height="16px" src="">
-                    <span>现正促销</span>
+                    <span>promotion</span>
 
                 </div>
                 <div class="originalDiv">
-                    <span class="originalPriceDesc">价格</span>
-                    <span class="originalPriceYuan">¥</span>
+                    <span class="originalPriceDesc">price</span>
+                    <span class="originalPriceYuan">$</span>
                     <span class="originalPrice" th:value="${p.originalPrice}" th:text="${p.originalPrice}">
                     </span>
                 </div>
                 <div class="promotionDiv">
-                    <span class="promotionPriceDesc">促销价 </span>
-                    <span class="promotionPriceYuan">¥</span>
+                    <span class="promotionPriceDesc">promote price </span>
+                    <span class="promotionPriceYuan">$</span>
                     <span class="promotionPrice" th:value="${p.promotePrice}" th:text="${p.promotePrice}">
                     </span>
                 </div>
             </div>
         </div>
         <div class="productSaleAndReviewNumber" >
-            <div>销量 <span class="redColor boldWord" th:text="${p.saleCount }"> ${p.saleCount }</span></div>
-            <div>累计评价 <span class="redColor boldWord" th:text="${p.reviewCount }"> ${p.reviewCount}</span></div>
+            <div>sales<span class="redColor boldWord" th:text="${p.saleCount }"> ${p.saleCount }</span></div>
+            <div>review<span class="redColor boldWord" th:text="${p.reviewCount }"> ${p.reviewCount}</span></div>
         </div>
         <div class="productNumber" style="height:50px">
-            <span>数量</span>
+            <span>number</span>
             <span>
                 <span class="productNumberSettingSpan">
                 <input class="productNumberSetting" type="text" value="1">
@@ -205,7 +205,7 @@
                 </span>
 
             件</span>
-            <span th:text="'库存'+${p.stock}+'件'">库存${p.stock}件</span>
+            <span th:text="'stock:'+${p.stock}">库存${p.stock}件</span>
         </div>
         <div class="serviceCommitment">
             <span class="serviceCommitmentDesc"></span>
@@ -219,10 +219,10 @@
 
         <div class="buyDiv">
             <a class="buyLink" th:href="@{buyone(pid=${p.id})}">
-                <button class="buyButton">立即购买</button>
+                <button class="buyButton">buy now</button>
             </a>
             <a href="#nowhere" class="addCartLink">
-                <button class="addCartButton"><span class="glyphicon glyphicon-shopping-cart"></span>加入购物车</button>
+                <button class="addCartButton"><span class="glyphicon glyphicon-shopping-cart"></span>add to cart</button>
             </a>
         </div>
     </div>

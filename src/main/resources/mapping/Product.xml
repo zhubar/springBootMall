@@ -14,7 +14,7 @@
         </select>
 
     <select id="search" resultType="Product" parameterType="String">
-            select * from product where name like #{keyword}
+            select * from product where subTitle like "%"#{keyword}"%"
         </select>
 
     <insert id="insert" parameterType="Product" useGeneratedKeys="true"   keyProperty="id">

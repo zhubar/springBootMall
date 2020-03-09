@@ -10,18 +10,18 @@
 <body>
 <div class="workingArea">
     <ol class="breadcrumb">
-        <li><a href="listCategory">所有分类</a></li>
+        <li><a href="listCategory">Category</a></li>
         <li><a th:href="@{listProperty(cid = ${category.id})}" th:text="${category.name}">back</a></li>
-        <li class="active">编辑属性</li>
+        <li class="active">edit Property</li>
     </ol>
 
     <div class="panel panel-warning editDiv">
-        <div class="panel-heading">编辑属性</div>
+        <div class="panel-heading">edit property</div>
         <div class="panel-body">
             <form method="post" id="editForm" action="updateProperty">
                 <table class="editTable">
                     <tr>
-                        <td>属性名称</td>
+                        <td>property name</td>
                         <td><input id="name" name="name" th:value="${p.name}"
                                    type="text" class="form-control"></td>
                     </tr>
@@ -29,7 +29,7 @@
                         <td colspan="2" align="center">
                             <input type="hidden" name="id" th:value="${p.id}">
                             <input type="hidden" name="cid" th:value="${cid}">
-                            <button type="submit" class="btn btn-success">提 交</button>
+                            <button type="submit" class="btn btn-success">submit</button>
                         </td>
                     </tr>
                 </table>

@@ -211,12 +211,12 @@
     }
 </script>
 
-<title>购物车</title>
+<title>cart</title>
 <div class="cartDiv">
     <div class="cartTitle pull-right">
-        <span>已选商品  (不含运费)</span>
-        <span class="cartTitlePrice">￥0.00</span>
-        <button class="createOrderButton" disabled="disabled">结 算</button>
+        <span>selected product</span>
+        <span class="cartTitlePrice">$0.0</span>
+        <button class="createOrderButton" disabled="disabled">settle</button>
     </div>
 
 
@@ -230,11 +230,11 @@
                     全选
 -->
                 </th>
-                <th>商品信息</th>
-                <th>单价</th>
-                <th>数量</th>
-                <th width="120px">金额</th>
-                <th class="operation">操作</th>
+                <th>product information</th>
+                <th>unit price</th>
+                <th>number</th>
+                <th width="120px">total money</th>
+                <th class="operation">operation</th>
             </tr>
             </thead>
             <tbody>
@@ -250,14 +250,6 @@
                     <td>
                         <div class="cartProductLinkOutDiv">
                             <a th:href="@{product(pid=${oi.product.id})}" class="cartProductLink" th:text="${oi.product.name}">${oi.product.name}</a>
-                            <!--
-                            <div class="cartProductLinkInnerDiv">
-                                <img src="img/site/creditcard.png" title="支持信用卡支付">
-                                <img src="img/site/7day.png" title="消费者保障服务,承诺7天退货">
-                                <img src="img/site/promise.png" title="消费者保障服务,承诺如实描述">
-
-                            </div>
-                            -->
                         </div>
 
                     </td>
@@ -287,7 +279,7 @@
 
                     </td>
                     <td>
-                        <a class="deleteOrderItem" th:orderItemId="${oi.id}" href="#nowhere">删除</a>
+                        <a class="deleteOrderItem" th:orderItemId="${oi.id}" href="#nowhere">delete</a>
                     </td>
                 </tr>
             </tbody>
@@ -297,14 +289,14 @@
 
     <div class="cartFoot">
         <img selectit="false" class="selectAllItem" src="img/site/cartNotSelected.png">
-        <span>全选</span>
+        <span>select all</span>
 
         <div class="pull-right">
-            <span>已选商品 <span class="cartSumNumber">0</span> 件</span>
+            <span>selected product<span class="cartSumNumber">0</span> 件</span>
 
-            <span>合计 (不含运费): </span>
-            <span class="cartSumPrice">￥0.00</span>
-            <button class="createOrderButton" disabled="disabled">结 算</button>
+            <span>total money: </span>
+            <span class="cartSumPrice">$0.00</span>
+            <button class="createOrderButton" disabled="disabled">settle</button>
         </div>
 
     </div>

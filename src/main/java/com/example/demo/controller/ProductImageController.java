@@ -57,23 +57,19 @@ public class ProductImageController {
         productImageService.delete(id);
 
         String fileName = id + ".jpg";
-        //3.通过req.getServletContext().getRealPath("") 获取当前项目的真实路径，然后拼接前面的文件名
         String destFileName = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\productSingle\\"+ fileName;
-        //4.第一次运行的时候，这个文件所在的目录往往是不存在的，这里需要创建一下目录（创建到了webapp下uploaded文件夹下）
         File destFile = new File(destFileName);
         destFile.delete();
 
         String destFileName_middle = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\productSingle_middle\\"+ fileName;
-        //4.第一次运行的时候，这个文件所在的目录往往是不存在的，这里需要创建一下目录（创建到了webapp下uploaded文件夹下）
         File destFile_middle = new File(destFileName_middle);
         destFile_middle.delete();
 
         String destFileName_small = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\productSingle_small\\"+ fileName;
-        //4.第一次运行的时候，这个文件所在的目录往往是不存在的，这里需要创建一下目录（创建到了webapp下uploaded文件夹下）
         File destFile_small = new File(destFileName_small);
         destFile_small.delete();
 
-        return  "redirect:/listProductImage?id="+pid;
+        return  "redirect:/listProductImage?pid="+pid;
     }
 
     @RequestMapping("/deleteProductDetailImage")
@@ -83,14 +79,12 @@ public class ProductImageController {
         productImageService.delete(id);
 
         String fileName = id + ".jpg";
-        //3.通过req.getServletContext().getRealPath("") 获取当前项目的真实路径，然后拼接前面的文件名
         String destFileName = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\productDetail\\"+ fileName;
-        //4.第一次运行的时候，这个文件所在的目录往往是不存在的，这里需要创建一下目录（创建到了webapp下uploaded文件夹下）
         File destFile = new File(destFileName);
         destFile.delete();
 
 
-        return  "redirect:/listProductImage?id="+pid;
+        return  "redirect:/listProductImage?pid="+pid;
     }
 
     @RequestMapping("/insertProductDetailImage")
@@ -107,15 +101,14 @@ public class ProductImageController {
             String destFileName = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\productDetail\\"+ fileName;
             File destFile = new File(destFileName);
             file.transferTo(destFile);
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-            return "上传失败," + e.getMessage();
+            return "error" + e.getMessage();
         }
 
-        return  "redirect:/listProductImage?id="+pid;
+        return  "redirect:/listProductImage?pid="+pid;
     }
 
     @RequestMapping("/insertProductSingleImage")
@@ -132,26 +125,21 @@ public class ProductImageController {
             String destFileName = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\productSingle\\"+ fileName;
             File destFile = new File(destFileName);
             file.transferTo(destFile);
-
-
             String destFileName_middle = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\productSingle_middle\\"+ fileName;
             File destFile_middle = new File(destFileName_middle);
-            //file.transferTo(destFile_middle);
             ImageUtil.resizeImage(destFile,217,190,destFile_middle);
-
             String destFileName_small = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\productSingle_small\\"+ fileName;
             File destFile_small = new File(destFileName_small);
-            //file.transferTo(destFile_small);
             ImageUtil.resizeImage(destFile,56,56,destFile_small);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-            return "上传失败," + e.getMessage();
+            return "error" + e.getMessage();
         }
 
-        return  "redirect:/listProductImage?id="+pid;
+        return  "redirect:/listProductImage?pid="+pid;
     }
 
 }

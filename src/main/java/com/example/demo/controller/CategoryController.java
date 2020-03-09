@@ -46,7 +46,6 @@ public class CategoryController  {
         pageInfo = new PageInfo<>(cs);
         m.addAttribute("pageInfo", pageInfo);
 
-        //return "/admin/listCategory.jsp";
         return "/admin/listCategory.html";
     }
 
@@ -59,20 +58,16 @@ public class CategoryController  {
         categoryService.insert(c);
 
         try {
-            //2.根据时间戳创建新的文件名，这样即便是第二次上传相同名称的文件，也不会把第一次的文件覆盖了
             String fileName = c.getId() + ".jpg";
-            //3.通过req.getServletContext().getRealPath("") 获取当前项目的真实路径，然后拼接前面的文件名
             String destFileName = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\category\\"+ fileName;
-            //4.第一次运行的时候，这个文件所在的目录往往是不存在的，这里需要创建一下目录（创建到了webapp下uploaded文件夹下）
             File destFile = new File(destFileName);
-            //5.把浏览器上传的文件复制到希望的位置
             file.transferTo(destFile);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-            return "上传失败," + e.getMessage();
+            return "error" + e.getMessage();
         }
 
         return  "redirect:/listCategory";
@@ -122,11 +117,8 @@ public class CategoryController  {
     public String deleteCategory(HttpServletRequest request) throws Exception {
         String cid = request.getParameter("cid");
         categoryService.delete(Integer.parseInt(cid));
-
         String fileName = cid + ".jpg";
-        //3.通过req.getServletContext().getRealPath("") 获取当前项目的真实路径，然后拼接前面的文件名
         String destFileName = "E:\\project\\springBootMall\\src\\main\\resources\\static\\img\\category\\"+ fileName;
-        //4.第一次运行的时候，这个文件所在的目录往往是不存在的，这里需要创建一下目录（创建到了webapp下uploaded文件夹下）
         File destFile = new File(destFileName);
         destFile.delete();
 

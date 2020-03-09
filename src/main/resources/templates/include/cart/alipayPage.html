@@ -8,7 +8,7 @@
     </div>
 
     <div>
-        <span class="confirmMoneyText">扫一扫付款（元）</span>
+        <span class="confirmMoneyText">pay</span>
         <span class="confirmMoney" th:value="${param.total}" th:text="${param.total}"></span>
 
     </div>
@@ -18,7 +18,7 @@
 
     <div>
         <a th:href="@{payed(oid=${param.oid},total=${param.total})}">
-            <button class="confirmPay">确认支付</button>
+            <button class="confirmPay">confirm pay</button>
         </a>
     </div>
 

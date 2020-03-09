@@ -7,6 +7,7 @@ import com.example.demo.mapper.CategoryMapper;
 
 import com.example.demo.pojo.OrderItem;
 import com.example.demo.pojo.Product;
+import com.example.demo.pojo.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class CategoryService {
     ProductService productService;
     @Autowired
     OrderItemService orderItemService;
+    @Autowired
+    PropertyService propertyService;
 
     public List<Category> findAll(){
         List<Category> cs= categoryMapper.findAll();
@@ -55,6 +58,17 @@ public class CategoryService {
     }
 
     public void delete(int id){
+        Category c = this.findById(id);
+        if(!c.getProducts().isEmpty()){
+            for(Product p:c.getProducts()){
+                productService.delete(p.getId());
+            }
+        }
+        if(!c.getPropertys().isEmpty()){
+            for(Property py : c.getPropertys()){
+                propertyService.delete(py.getId());
+            }
+        }
         categoryMapper.delete(id);
 
     }
@@ -72,6 +86,8 @@ public class CategoryService {
                 }
             }
             c.setSell(sell);
+        List<Property>pys = propertyService.findByCid(c.getId());
+        c.setPropertys(pys);
         return c;
 
     }

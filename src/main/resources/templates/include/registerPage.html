@@ -44,41 +44,40 @@
 
 
     <div class="registerDiv">
+
+        <table class="registerTable" align="center">
+            <tr>
+                <td  class="registerTip registerTableLeftTD">set user name</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="registerTableLeftTD">name</td>
+                <td  class="registerTableRightTD"><input id="name" name="name" placeholder="Once the name is set successfully, it cannot be modified" > </td>
+            </tr>
+            <tr>
+                <td  class="registerTip registerTableLeftTD">seet password</td>
+                <td  class="registerTableRightTD">verify the password</td>
+            </tr>
+            <tr>
+                <td class="registerTableLeftTD">password</td>
+                <td class="registerTableRightTD"><input id="password" name="password" type="password"  placeholder="set password" > </td>
+            </tr>
+            <tr>
+                <td class="registerTableLeftTD">confirm password</td>
+                <td class="registerTableRightTD"><input id="repeatpassword" type="password"   placeholder="please repeat password" > </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" class="registerButtonTD">
+                    <a href="register"><button>submit</button></a>
+                </td>
+            </tr>
+        </table>
         <div class="registerErrorMessageDiv">
             <div class="alert alert-danger" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                 <span class="errorMessage"></span>
             </div>
         </div>
-
-
-        <table class="registerTable" align="center">
-            <tr>
-                <td  class="registerTip registerTableLeftTD">设置会员名</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="registerTableLeftTD">登陆名</td>
-                <td  class="registerTableRightTD"><input id="name" name="name" placeholder="会员名一旦设置成功，无法修改" > </td>
-            </tr>
-            <tr>
-                <td  class="registerTip registerTableLeftTD">设置登陆密码</td>
-                <td  class="registerTableRightTD">登陆时验证，保护账号信息</td>
-            </tr>
-            <tr>
-                <td class="registerTableLeftTD">登陆密码</td>
-                <td class="registerTableRightTD"><input id="password" name="password" type="password"  placeholder="设置你的登陆密码" > </td>
-            </tr>
-            <tr>
-                <td class="registerTableLeftTD">密码确认</td>
-                <td class="registerTableRightTD"><input id="repeatpassword" type="password"   placeholder="请再次输入你的密码" > </td>
-            </tr>
-
-            <tr>
-                <td colspan="2" class="registerButtonTD">
-                    <a href="register"><button>提   交</button></a>
-                </td>
-            </tr>
-        </table>
     </div>
 </form>

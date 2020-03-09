@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="workingArea">
-    <h1 class="label label-info">销售统计</h1>
+    <h1 class="label label-info">sell statistics</h1>
     <br>
     <br>
 </div>
@@ -26,7 +26,7 @@
 
 <ul id="myTab" class="nav nav-tabs"  >
             <li  th:each="c,loop:${cid}" th:class="${loop.count == 1}?'active'" >
-                <a th:href="@{#${c}}" data-toggle="tab" th:id = "${c}"
+                <a th:href="@{'#'+${c}}" data-toggle="tab" th:id = "${c}"
                    name = "hlink" th:value = "${c}" th:with="f=0" th:text="${cname[loop.count-1]}">
                     ${cname[loop.count-1]}
                 </a>
@@ -58,13 +58,14 @@
         data: {
             labels: cnameSplit,
             datasets: [{
-                label: '分类销售统计',
+                label: 'category sell statistics',
                 data: csellSplit,
                 borderColor:'blue',
                 backgroundColor:'skyblue',
-                borderWidth: 1,
+                borderWidth: 2,
             }]
         },
+
         options: {
             scales: {
                 yAxes: [{
@@ -88,11 +89,12 @@
         data: {
             labels: pnameSplit,
             datasets: [{
-                label: '产品销售统计',
+                label: 'product sell statistics',
                 data: psellSplit,
                 borderColor:'blue',
                 backgroundColor:'skyblue',
-                borderWidth: 1,
+                borderWidth: 2,
+
             }]
         },
         options: {
@@ -140,7 +142,7 @@
                     data: {
                         labels: pnameSplit,
                         datasets: [{
-                            label: '产品销售统计',
+                            label: 'product sell statistics',
                             data: psellSplit,
                             borderColor:'blue',
                             backgroundColor:'skyblue',

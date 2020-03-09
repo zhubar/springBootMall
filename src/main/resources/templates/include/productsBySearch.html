@@ -13,12 +13,12 @@
             </a>
 
             <div class="productInfo">
-                <span class="monthDeal ">月成交 <span class="productDealNumber" th:text="${p.saleCount}">笔</span></span>
-                <span class="productReview">评价<span class="productReviewNumber" th:text="${p.reviewCount}"></span></span>
+                <span class="monthDeal ">deal<span class="productDealNumber" th:text="${p.saleCount}">笔</span></span>
+                <span class="productReview">review<span class="productReviewNumber" th:text="${p.reviewCount}"></span></span>
             </div>
         </div>
 
-        <div th:if="${ps == null}" class="noMatch">没有满足条件的产品
-            <div style="clear:both"></div>
-        </div>
+        <div th:if="${ps == null}" class="noMatch">not such a product</div>
+    <div style="clear:both"></div>
+
 </div>

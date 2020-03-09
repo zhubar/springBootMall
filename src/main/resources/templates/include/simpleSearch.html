@@ -8,7 +8,7 @@
     <form action="search" method="post">
         <div class="searchDiv pull-right">
             <input type="text" placeholder="" name="keyword">
-            <button class="searchButton" type="submit">搜索</button>
+            <button class="searchButton" type="submit">search</button>
             <div class="searchBelow">
                         <span th:each="category,st:${categories}">
                             <a th:if="${st.count >= 8 and st.count <= 11}"

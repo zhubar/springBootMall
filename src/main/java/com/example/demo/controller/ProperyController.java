@@ -98,6 +98,8 @@ public class ProperyController {
         int id = Integer.parseInt(request.getParameter("id"));
         Property p = propertyService.findById(id);
         m.addAttribute("p",p);
+        Category category = categoryService.findById(cid);
+        m.addAttribute("category",category);
         m.addAttribute("cid",cid);
         return "/admin/editProperty.html";
 

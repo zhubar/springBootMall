@@ -1,13 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.pojo.Category;
-import com.example.demo.pojo.Product;
-import com.example.demo.pojo.Property;
-import com.example.demo.pojo.PropertyValue;
-import com.example.demo.service.CategoryService;
-import com.example.demo.service.ProductService;
-import com.example.demo.service.PropertyService;
-import com.example.demo.service.PropertyValueService;
+import com.example.demo.pojo.*;
+import com.example.demo.service.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +23,8 @@ public class ProductController {
     PropertyService propertyService;
     @Autowired
     PropertyValueService propertyValueService;
+    @Autowired
+    ProductImageService productImageService;
 
     @RequestMapping("/listProduct")
     public String listProduct(HttpServletRequest request, Model m, Integer page){
@@ -44,6 +40,7 @@ public class ProductController {
         Category category = categoryService.findById(cid);
         m.addAttribute("pageInfo", pageInfo);
         m.addAttribute("category", category);
+        System.out.println(pageInfo.toString());
         return "/admin/listProduct.html";
 
     }
@@ -66,6 +63,15 @@ public class ProductController {
         p.setPromotePrice(promotePrice);
         productService.insert(p);
 
+        List<Property> pys= propertyService.findByCid(cid);
+        for(Property py : pys){
+            PropertyValue pv =new PropertyValue();
+            pv.setValue("");
+            pv.setPid(p.getId());
+            pv.setPtid(py.getId());
+            propertyValueService.insert(pv);
+        }
+
         return  "redirect:/listProduct?cid="+cid;
     }
 
@@ -73,6 +79,9 @@ public class ProductController {
     public String deleteProduct(HttpServletRequest request) throws Exception {
         int cid = Integer.parseInt(request.getParameter("cid"));
         int pid = Integer.parseInt(request.getParameter("pid"));
+        Product p = productService.findById(pid);
+
+
         productService.delete(pid);
 
 
@@ -161,7 +170,6 @@ public class ProductController {
         List<Product> ps= productService.search(keyword);
         pageInfo = new PageInfo<>(ps);
         Category category =new Category();
-        System.out.println(ps.size());
         if(!ps.isEmpty()){
             int cid = ps.get(0).getCid();
             category = categoryService.findById(cid);

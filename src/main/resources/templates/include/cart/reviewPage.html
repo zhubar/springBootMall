@@ -12,26 +12,26 @@
             </div>
             <table class="reviewProductInfoTable">
                 <tr>
-                    <td width="75px">价格:</td>
+                    <td width="75px">price: </td>
                     <td><span class="reviewProductInfoTablePrice"
                               th:value="${p.originalPrice}" th:text="${p.originalPrice}">￥</span> 元
                     </td>
                 </tr>
                 <tr>
-                    <td>配送</td>
-                    <td>快递: 0.00</td>
+                    <td>delivery</td>
+                    <td>freight:0.0</td>
                 </tr>
                 <tr>
-                    <td>月销量:</td>
+                    <td>sales:</td>
                     <td><span class="reviewProductInfoTableSellNumber" th:text=" ${p.saleCount}">${p.saleCount}</span> 件</td>
                 </tr>
             </table>
 
             <div class="reviewProductInfoRightBelowDiv">
                 <span class="reviewProductInfoRightBelowImg"><img1 src="img/site/reviewLight.png"></span>
-                <span class="reviewProductInfoRightBelowText">现在查看的是 您所购买商品的信息 于
+                <span class="reviewProductInfoRightBelowText">the order information:
                     <span th:value="${o.createDate}" th:text="${o.createDate}"></span>
-                    下单购买了此商品 </span>
+                    bought this product </span>
 
             </div>
         </div>
@@ -40,7 +40,7 @@
     <div class="reviewStasticsDiv">
         <div class="reviewStasticsLeft">
             <div class="reviewStasticsLeftTop"></div>
-            <div class="reviewStasticsLeftContent">累计评价 <span class="reviewStasticsNumber" th:text="${p.reviewCount}"> ${p.reviewCount}</span>
+            <div class="reviewStasticsLeftContent">review <span class="reviewStasticsNumber" th:text="${p.reviewCount}"> ${p.reviewCount}</span>
             </div>
             <div class="reviewStasticsLeftFoot"></div>
         </div>
@@ -64,17 +64,17 @@
         <div th:if="${param.showonly!=true}"
                 class="makeReviewDiv">
             <form method="post" action="doReview">
-                <div class="makeReviewText">其他买家，需要你的建议哦！</div>
+                <div class="makeReviewText">other customers need your advice</div>
                 <table class="makeReviewTable">
                     <tr>
-                        <td class="makeReviewTableFirstTD">评价商品</td>
-                        <td><textarea name="content"></textarea></td>
+                        <td class="makeReviewTableFirstTD">review product</td>
+                        <td><textarea name="content" class="leaveMessageTextarea"></textarea></td>
                     </tr>
                 </table>
                 <div class="makeReviewButtonDiv">
                     <input type="hidden" name="oid" th:value="${o.id}">
                     <input type="hidden" name="pid" th:value="${p.id}">
-                    <button type="submit">提交评价</button>
+                    <button type="submit">review</button>
                 </div>
             </form>
         </div>

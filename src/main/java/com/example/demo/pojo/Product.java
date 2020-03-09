@@ -16,10 +16,19 @@ public class Product {
     private List<ProductImage> productImages;
     private List<ProductImage> productSingleImages;
     private List<ProductImage> productDetailImages;
+    private List<PropertyValue> propertyValues;
     private int reviewCount;
     private int saleCount;
     int sell;
     private int cid;
+
+    public List<PropertyValue> getPropertyValues() {
+        return propertyValues;
+    }
+
+    public void setPropertyValues(List<PropertyValue> propertyValues) {
+        this.propertyValues = propertyValues;
+    }
 
     public int getCid() {
         return cid;

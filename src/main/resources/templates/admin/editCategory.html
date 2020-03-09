@@ -28,21 +28,21 @@
 <div class="workingArea">
 
     <ol class="breadcrumb">
-        <li><a href="listCategory">所有分类</a></li>
-        <li class="active">编辑分类</li>
+        <li><a href="listCategory">Category</a></li>
+        <li class="active">edit Category</li>
     </ol>
 
     <div class="panel panel-warning editDiv">
-        <div class="panel-heading">编辑分类</div>
+        <div class="panel-heading">edit Category</div>
         <div class="panel-body">
             <form method="post" id="editForm" action="updateCategory" enctype="multipart/form-data">
                 <table class="editTable">
                     <tr>
-                        <td>分类名称</td>
+                        <td>category name</td>
                         <td><input id="name" name="name"th:placeholder="${category.name}"  th:value="${category.name}" type="text" class="form-control"></td>
                     </tr>
                     <tr>
-                        <td>分类圖片</td>
+                        <td>category photo</td>
                         <td>
                             <input id="categoryPic" accept="image/*" type="file" name="file"/>
                         </td>
@@ -50,7 +50,7 @@
                     <tr class="submitTR">
                         <td colspan="2" align="center">
                             <input type="hidden" name="cid" th:value="${category.id}">
-                            <button type="submit" class="btn btn-success">提 交</button>
+                            <button type="submit" class="btn btn-success">submit</button>
                         </td>
                     </tr>
                 </table>

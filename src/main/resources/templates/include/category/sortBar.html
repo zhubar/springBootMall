@@ -41,19 +41,16 @@
         <tr>
             <td th:class="${'all'==param.sort||param.sort == null}?'grayColumn'">
             <a th:href="@{?(cid=${category.id},sort='all')}">
-                综合<span class="glyphicon glyphicon-arrow-down"></span></a>
+                average<span class="glyphicon glyphicon-arrow-down"></span></a>
             </td>
             <td th:class="${'review'==param.sort}?'grayColumn'">
-            <a th:href="@{?(cid=${category.id},sort='review')}">人气<span class="glyphicon glyphicon-arrow-down"></span></a>
-            </td>
-            <td  th:class="${'date'==param.sort}?'grayColumn'">
-            <a th:href="@{?(cid=${category.id},sort='date')}">新品<span class="glyphicon glyphicon-arrow-down"></span></a>
+            <a th:href="@{?(cid=${category.id},sort='review')}">popularity<span class="glyphicon glyphicon-arrow-down"></span></a>
             </td>
             <td th:class="${'saleCount'==param.sort}?'grayColumn'">
-            <a th:href="@{?(cid=${category.id},sort='saleCount')}">销量<span class="glyphicon glyphicon-arrow-down"></span></a>
+            <a th:href="@{?(cid=${category.id},sort='saleCount')}">sell<span class="glyphicon glyphicon-arrow-down"></span></a>
             </td>
             <td th:class="${'price'==param.sort}?'grayColumn'">
-            <a th:href="@{?(cid=${category.id},sort='price')}">价格<span class="glyphicon glyphicon-resize-vertical"></span></a>
+            <a th:href="@{?(cid=${category.id},sort='price')}">price<span class="glyphicon glyphicon-resize-vertical"></span></a>
             </td>
         </tr>
     </table>

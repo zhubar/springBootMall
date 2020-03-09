@@ -18,28 +18,26 @@
 </head>
 <body>
 <div class="workingArea">
-    <h1 class="label label-info">订单管理</h1>
+    <h1 class="label label-info">order</h1>
     <br>
     <br>
     <div class="listDataTableDiv">
         <table class="table table-striped table-bordered table-hover table-condensed">
             <thead>
             <tr class="success">
-                <th>ID</th>
-                <th>状态</th>
-                <th>金额</th>
-                <th width="100px">商品数量</th>
-                <th width="100px">买家名称</th>
-                <th>创建时间</th>
-                <th>支付时间</th>
-                <th>发货时间</th>
-                <th>确认收货时间</th>
-                <th width="120px">操作</th>
+                <th>status</th>
+                <th>amount</th>
+                <th width="100px">product number</th>
+                <th width="100px">name of customer</th>
+                <th>create date</th>
+                <th>pay date</th>
+                <th>delivery date</th>
+                <th>confirm date</th>
+                <th width="120px">operation</th>
             </tr>
             </thead>
             <tbody th:each="order:${pageInfo.list}">
                 <tr >
-                    <td th:text="${order.id}">${order.id}</td>
                     <td th:text="${order.status}">${order.status}</td>
                     <td th:text="${order.total}">￥"${order.total}"</td>
                     <td align="center" th:text="${order.totalNumber}">${order.totalNumber}</td>
@@ -51,10 +49,10 @@
                     <td th:text="${order.confirmDate}" ></td>
 
                     <td>
-                        <button th:oid="${order.id}" class="orderPageCheckOrderItems btn btn-primary btn-xs">查看详情</button>
+                        <button th:oid="${order.id}" class="orderPageCheckOrderItems btn btn-primary btn-xs">check detail</button>
                             <a th:if="${order.status=='waitDelivery'}"
                                th:href="@{deliveryOrder(id = ${order.id})}">
-                                <button class="btn btn-primary btn-xs">发货</button>
+                                <button class="btn btn-primary btn-xs">delivery</button>
                             </a>
                     </td>
                 </tr>

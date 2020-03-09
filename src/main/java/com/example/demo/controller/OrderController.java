@@ -43,19 +43,6 @@ public class OrderController {
         int pageSize = 10;
         PageHelper.startPage(page,pageSize);
         List<Order> os = orderService.findAll();
-        for( Order o :os){
-            List<OrderItem> ois = orderItemService.findByOid(o.getId());
-            for(OrderItem oi : ois){
-                Product p= productService.findById(oi.getPid());
-                p.setFirstProductImage(productImageService.findSingleByPid(p.getId()).get(0));
-                oi.setProduct(p);
-                o.setTotalNumber(o.getTotalNumber()+oi.getNumber());
-                o.setTotal(o.getTotal()+p.getPromotePrice());
-            }
-            o.setOrderItems(ois);
-        }
-
-
         pageInfo = new PageInfo<>(os);
         m.addAttribute("pageInfo", pageInfo);
 
